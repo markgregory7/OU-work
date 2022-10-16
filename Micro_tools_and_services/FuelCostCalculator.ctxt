@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=FuelCostCalculator
+comment0.text=\r\n\ FuelCostCalc\ calculates\ how\ much\ a\ trip\ cost\ in\ fuel\ in\ British\r\n\ pounds,\ by\ using\ supplied\ miles\ travelled,\ miles-per-gallon\ (imperial)\ and\r\n\ pence-per-litre\ variables.\r\n\r\n\ @author\ \ Mark\ Gregory\r\n\ @version\ 2022-10-16\ \ \ \ \r\n
+comment1.params=milesTravelled\ pencePerLitre\ mpg
+comment1.target=FuelCostCalculator(double,\ double,\ double)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ FuelCostCalculator\r\n
+comment2.params=
+comment2.target=java.lang.String\ calcCost()
+comment2.text=\r\n\ Calculates\ the\ cost\ of\ petrol\ for\ the\ miles\ travelled.\r\n\r\n\ @return\ \ \ \ a\ double\ formatted\ to\ be\ in\ pounds\ and\ pence.\r\n
+numComments=3
