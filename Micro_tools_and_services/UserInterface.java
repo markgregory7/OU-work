@@ -8,7 +8,7 @@ import javax.swing.*;
  * To start the application, create an object of this class.
  * 
  * @author Mark Gregory.
- * @version 2022-10-15.
+ * @version 2022-10-23.
  */
 public class UserInterface //extends JFrame //implements ActionListener
 {
@@ -95,38 +95,49 @@ public class UserInterface //extends JFrame //implements ActionListener
     /**
      * Calculates the journey cost by creating a FuelCostCalculator object from the UI's JTextFields
      * values (converting them to Doubles) and then calling its calcCost method.
+     * 
      * @throws NumberFormatException If any of the text fields do not contain a number that can be
      *          converted to a Double object.
      */
     private void calculate() throws NumberFormatException
     {
-        System.out.println("calculate method called");
+        //System.out.println("calculate method called");
+        UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
         try {
-            System.out.println("try block reached");
-            
+            //System.out.println("try block reached");
+
+            //What if mpg is 0?
+            if(currentMpgText.getText().equals("0") ||
+            currentMpgText.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "MPG cannot be nothing.",
+                    "Alert", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             double miles = 0.0;
             double mpg = 0.0;
             double ppl = 0.0;
-            
-            //What if any number entered is a negative?
+
             String milesTxt = milesTraveledText.getText();
             miles = Double.parseDouble(milesTxt);
-
-            //What if mpg is 0?
             String mpgTxt = currentMpgText.getText();
             mpg = Double.parseDouble(mpgTxt);
-
             String pplTxt = pencePerLitreText.getText();
             ppl = Double.parseDouble(pplTxt);
 
+            //What if any number entered is a negative?
+            if(miles <0 || mpg <0 || ppl <0){
+                JOptionPane.showMessageDialog(null, "No values can be less than 0.",
+                    "Alert", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             journeyCost = new FuelCostCalculator(miles, ppl, mpg);
             totalCostFuelText.setText(journeyCost.calcCost());
         }
         catch(NumberFormatException e) {
-            System.out.println("catch block reached");
+            //System.out.println("catch block reached");
             String msg = "Please enter whole, or decimal numbers, only.";
             String msgtyp = "Alert";
-            UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
             JOptionPane.showMessageDialog(null, msg, msgtyp, JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -139,7 +150,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     {
         System.exit(0);
     }
-    
+
     /**
      * Create the main frame's menu bar. 
      * @param frame   The frame that the menu bar should be added to.
