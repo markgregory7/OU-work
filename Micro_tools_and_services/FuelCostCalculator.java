@@ -7,14 +7,14 @@ import java.text.DecimalFormat;
  * pence-per-litre variables.
  *
  * @author  Mark Gregory
- * @version 2022-10-16    
+ * @version 2022-10-27    
  */
 public class FuelCostCalculator
 {
     private double milesTravelled;
     private static double LITRES_PER_GALLON = 4.54609;
-    private double currentMpg;
     private double pencePerLitre;
+    private double currentMpg;
     
     /**
      * Constructor for objects of class FuelCostCalculator
@@ -25,7 +25,31 @@ public class FuelCostCalculator
         this.pencePerLitre = pencePerLitre;
         currentMpg = mpg;
     }
-
+    
+    /**
+     * Returns milesTravelled.
+     */
+    public double getMilesTravelled()
+    {
+        return milesTravelled;
+    }
+    
+    /**
+     * Returns pencePerLitre.
+     */
+    public double getPencePerLitre()
+    {
+        return pencePerLitre;
+    }
+        
+    /**
+     * Returns currentMpg.
+     */
+    public double getCurrentMpg()
+    {
+        return currentMpg;
+    }
+    
     /**
      * Calculates the cost of petrol for the miles travelled.
      *
@@ -39,5 +63,17 @@ public class FuelCostCalculator
         String str = new DecimalFormat("#0.00").format(costInGbp);
         //System.out.println("£"+str);
         return ("£"+str); 
+    }
+    
+    /**
+     * Return a String representaion of a FuelCostCalculator including
+     * miles travelled, pence-per-litre and miles-per-gallon.
+     */
+    @Override
+    public String toString()
+    {
+        String outputString = String.format("Miles travelled is %s, pence-per-litre is " + 
+            "%s, and miles-per-gallon is %s.", milesTravelled, pencePerLitre, currentMpg);
+        return outputString;
     }
 }

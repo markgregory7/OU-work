@@ -1,10 +1,22 @@
 #BlueJ class context
 comment0.target=FuelCostCalculator
-comment0.text=\r\n\ FuelCostCalc\ calculates\ how\ much\ a\ trip\ cost\ in\ fuel\ in\ British\r\n\ pounds,\ by\ using\ supplied\ miles\ travelled,\ miles-per-gallon\ (imperial)\ and\r\n\ pence-per-litre\ variables.\r\n\r\n\ @author\ \ Mark\ Gregory\r\n\ @version\ 2022-10-16\ \ \ \ \r\n
+comment0.text=\r\n\ FuelCostCalc\ calculates\ how\ much\ a\ trip\ cost\ in\ fuel\ in\ British\r\n\ pounds,\ by\ using\ supplied\ miles\ travelled,\ miles-per-gallon\ (imperial)\ and\r\n\ pence-per-litre\ variables.\r\n\r\n\ @author\ \ Mark\ Gregory\r\n\ @version\ 2022-10-27\ \ \ \ \r\n
 comment1.params=milesTravelled\ pencePerLitre\ mpg
 comment1.target=FuelCostCalculator(double,\ double,\ double)
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ FuelCostCalculator\r\n
 comment2.params=
-comment2.target=java.lang.String\ calcCost()
-comment2.text=\r\n\ Calculates\ the\ cost\ of\ petrol\ for\ the\ miles\ travelled.\r\n\r\n\ @return\ \ \ \ a\ double\ formatted\ to\ be\ in\ pounds\ and\ pence.\r\n
-numComments=3
+comment2.target=double\ getMilesTravelled()
+comment2.text=\r\n\ Returns\ milesTravelled.\r\n
+comment3.params=
+comment3.target=double\ getPencePerLitre()
+comment3.text=\r\n\ Returns\ pencePerLitre.\r\n
+comment4.params=
+comment4.target=double\ getCurrentMpg()
+comment4.text=\r\n\ Returns\ currentMpg.\r\n
+comment5.params=
+comment5.target=java.lang.String\ calcCost()
+comment5.text=\r\n\ Calculates\ the\ cost\ of\ petrol\ for\ the\ miles\ travelled.\r\n\r\n\ @return\ \ \ \ a\ double\ formatted\ to\ be\ in\ pounds\ and\ pence.\r\n
+comment6.params=
+comment6.target=java.lang.String\ toString()
+comment6.text=\r\n\ Return\ a\ String\ representaion\ of\ a\ FuelCostCalculator\ including\r\n\ miles\ travelled,\ pence-per-litre\ and\ miles-per-gallon.\r\n
+numComments=7

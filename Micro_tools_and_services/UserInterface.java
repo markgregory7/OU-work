@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 /**
@@ -7,8 +8,11 @@ import javax.swing.*;
  * 
  * To start the application, create an object of this class.
  * 
+ * showAbout method & menu shortcuts based on ImageViewer class from Michael Kölling and
+ * David J. Barnes. 
+ * 
  * @author Mark Gregory.
- * @version 2022-10-23.
+ * @version 2022-10-30.
  */
 public class UserInterface //extends JFrame //implements ActionListener
 {
@@ -152,11 +156,39 @@ public class UserInterface //extends JFrame //implements ActionListener
     }
 
     /**
+     * Show the 'About FuelCostCalc' dialog.
+     */
+    private void showAbout()
+    {
+        UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
+        JOptionPane.showMessageDialog(frame, 
+            "FuelCostCalc by Mark Gregory\n" + "Version: 30-10-2022",
+            "About FuelCostCalc", 
+            JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    /**
+     * Show the 'Frequently Asked Questions' dialog. TBC
+     */
+    private void showFAQ()
+    {
+        UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
+        JOptionPane.showMessageDialog(frame, 
+            "Values need to be non negative, and zero values for MPG are not allowed.",
+            "FAQs", 
+            JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    /**
      * Create the main frame's menu bar. 
      * @param frame   The frame that the menu bar should be added to.
      */
     private void makeMenuBar(JFrame frame)
     {
+        //Needed for keyboard shortcuts
+        final int SHORTCUT_MASK =
+            Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+
         JMenuBar menubar = new JMenuBar();
         frame.setJMenuBar(menubar);
 
@@ -169,17 +201,25 @@ public class UserInterface //extends JFrame //implements ActionListener
         menu.setFont(new Font("SansSerif", Font.PLAIN, 20));
 
         item = new JMenuItem("Quit");
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, SHORTCUT_MASK));
         item.addActionListener(e -> quit());
         menu.add(item);
         item.setFont(new Font("SansSerif", Font.PLAIN, 20));
 
-        // // create the Help menu
-        // menu = new JMenu("Help");
-        // menubar.add(menu);
+        // create the Help menu
+        menu = new JMenu("Help");
+        menubar.add(menu);
+        menu.setFont(new Font("SansSerif", Font.PLAIN, 20));
 
-        // item = new JMenuItem("About...");
-        // item.addActionListener(e -> showAbout());
-        // menu.add(item);
+        item = new JMenuItem("About FuelCostCalc");
+        item.addActionListener(e -> showAbout());
+        menu.add(item);
+        item.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        
+        item = new JMenuItem("Frequently Asked Questions");
+        item.addActionListener(e -> showFAQ());
+        menu.add(item);
+        item.setFont(new Font("SansSerif", Font.PLAIN, 20));
 
     }
 
