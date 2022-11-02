@@ -12,7 +12,7 @@ import javax.swing.*;
  * David J. Barnes. 
  * 
  * @author Mark Gregory.
- * @version 2022-10-30.
+ * @version 1.0, 2022-11-01
  */
 public class UserInterface //extends JFrame //implements ActionListener
 {
@@ -162,7 +162,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     {
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(frame, 
-            "FuelCostCalc by Mark Gregory\n" + "Version: 30-10-2022",
+            "FuelCostCalc by Mark Gregory\n" + "Version: 1.0, 2022-11-01",
             "About FuelCostCalc", 
             JOptionPane.INFORMATION_MESSAGE);
     }
