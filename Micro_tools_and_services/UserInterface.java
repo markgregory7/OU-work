@@ -12,7 +12,7 @@ import javax.swing.*;
  * David J. Barnes. 
  * 
  * @author Mark Gregory.
- * @version 1.0, 2022-11-01
+ * @version 1.0, 2022-11-10
  */
 public class UserInterface //extends JFrame //implements ActionListener
 {
@@ -53,43 +53,39 @@ public class UserInterface //extends JFrame //implements ActionListener
         contentPane.setLayout(new GridLayout(2, 8));
 
         milesTraveledLabel = new JLabel("Miles Traveled");
-        milesTraveledLabel.setHorizontalAlignment(0);
-        milesTraveledLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
+        changeFontAndAlign(milesTraveledLabel);
         contentPane.add(milesTraveledLabel);
+
         milesTraveledText = new JTextField();
         contentPane.add(milesTraveledText);
-        milesTraveledText.setFont(new Font("SansSerif", Font.PLAIN, 20));
-        milesTraveledText.setHorizontalAlignment(0);
+        changeFontAndAlign(milesTraveledText);
 
         currentMpgLabel = new JLabel("Current MPG");
-        currentMpgLabel.setHorizontalAlignment(0);
-        currentMpgLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
+        changeFontAndAlign(currentMpgLabel);
         contentPane.add(currentMpgLabel);
+
         currentMpgText = new JTextField();
         contentPane.add(currentMpgText);
-        currentMpgText.setFont(new Font("SansSerif", Font.PLAIN, 20));
-        currentMpgText.setHorizontalAlignment(0);
+        changeFontAndAlign(currentMpgText);
 
         pencePerLitreLabel = new JLabel("Pence Per Litre");
-        pencePerLitreLabel.setHorizontalAlignment(0);
-        pencePerLitreLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
+        changeFontAndAlign(pencePerLitreLabel);
         contentPane.add(pencePerLitreLabel);
+
         pencePerLitreText = new JTextField();
         contentPane.add(pencePerLitreText);
-        pencePerLitreText.setFont(new Font("SansSerif", Font.PLAIN, 20));
-        pencePerLitreText.setHorizontalAlignment(0);
+        changeFontAndAlign(pencePerLitreText);
 
         // Button to instigate the calculation process.
         totalCostFuelButton = new JButton("Total Cost of Fuel (£)");
-        totalCostFuelButton.setFont(new Font("SansSerif", Font.BOLD, 20));
+        changeFontAndAlign(totalCostFuelButton);
         contentPane.add(totalCostFuelButton);
         totalCostFuelButton.addActionListener(e -> calculate());
 
         // Displays the result.
         totalCostFuelText = new JTextField();
         contentPane.add(totalCostFuelText);
-        totalCostFuelText.setFont(new Font("SansSerif", Font.PLAIN, 20));
-        totalCostFuelText.setHorizontalAlignment(0);
+        changeFontAndAlign(totalCostFuelText);
 
         // Arrange the components and show.
         frame.pack();
@@ -147,6 +143,59 @@ public class UserInterface //extends JFrame //implements ActionListener
         }
     }
 
+    // Are the overloading methods below done better with a lamda? (if possible?)
+    /**
+     * Updates the font, size and horizontal alignment for a JLabel.
+     * @param label The JLabel to be modified.
+     */
+    private void changeFontAndAlign(JLabel label)
+    {
+        label.setFont(new Font("SansSerif", Font.BOLD, 20));
+        label.setHorizontalAlignment(0);
+        String formatedText = label.getText();
+    }
+
+    /**
+     * Updates the font, size and horizontal alignment for a JTextField.
+     * @param textField The JTextField to be modified.
+    */
+    private void changeFontAndAlign(JTextField textField)
+    {
+        textField.setFont(new Font("SansSerif", Font.BOLD, 20));
+        textField.setHorizontalAlignment(0);
+        String formatedText = textField.getText();
+    }
+
+    /**
+     * Updates the font and size for a JButton.
+     * @param button The JButton to be modified.
+     */
+    private void changeFontAndAlign(JButton button)
+    {
+        button.setFont(new Font("SansSerif", Font.BOLD, 20));
+        String formatedText = button.getText();
+    }
+
+    /**
+     * Updates the font and size for a JMenu.
+     * @param menu The JMenu to be modified.
+     */
+    private void changeFontAndAlign(JMenu menu)
+    {
+        menu.setFont(new Font("SansSerif", Font.BOLD, 20));
+        String formatedText = menu.getText();
+    }
+
+    /**
+     * Updates the font and size for a JMenuItem.
+     * @param menuItem The JMenuItem to be modified.
+     */
+    private void changeFontAndAlign(JMenuItem menuItem)
+    {
+        menuItem.setFont(new Font("SansSerif", Font.BOLD, 20));
+        String formatedText = menuItem.getText();
+    }
+
     /**
      * Quit function: quit the application.
      */
@@ -162,11 +211,11 @@ public class UserInterface //extends JFrame //implements ActionListener
     {
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(frame, 
-            "FuelCostCalc by Mark Gregory\n" + "Version: 1.0, 2022-11-01",
+            "FuelCostCalc by Mark Gregory\n" + "Version: 1.0, 2022-11-10",
             "About FuelCostCalc", 
             JOptionPane.INFORMATION_MESSAGE);
     }
-    
+
     /**
      * Show the 'Frequently Asked Questions' dialog. TBC
      */
@@ -178,7 +227,7 @@ public class UserInterface //extends JFrame //implements ActionListener
             "FAQs", 
             JOptionPane.INFORMATION_MESSAGE);
     }
-    
+
     /**
      * Create the main frame's menu bar. 
      * @param frame   The frame that the menu bar should be added to.
@@ -198,29 +247,28 @@ public class UserInterface //extends JFrame //implements ActionListener
         // create the File menu
         menu = new JMenu("File");
         menubar.add(menu);
-        menu.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        changeFontAndAlign(menu);
 
         item = new JMenuItem("Quit");
         item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, SHORTCUT_MASK));
         item.addActionListener(e -> quit());
         menu.add(item);
-        item.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        changeFontAndAlign(item);
 
         // create the Help menu
         menu = new JMenu("Help");
         menubar.add(menu);
-        menu.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        changeFontAndAlign(menu);
 
         item = new JMenuItem("About FuelCostCalc");
         item.addActionListener(e -> showAbout());
         menu.add(item);
-        item.setFont(new Font("SansSerif", Font.PLAIN, 20));
-        
+        changeFontAndAlign(item);
+
         item = new JMenuItem("Frequently Asked Questions");
         item.addActionListener(e -> showFAQ());
         menu.add(item);
-        item.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        changeFontAndAlign(item);
 
     }
-
 }
