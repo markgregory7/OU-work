@@ -1,8 +1,8 @@
 #BlueJ class context
 comment0.target=Item
-comment0.text=\r\n\ Contains\ the\ information\ for\ Item\ objects\ created\ in\ the\ game.\r\n\r\n\ @author\ Mark\ Gregory\r\n\ @version\ 2023-01-26\r\n
-comment1.params=aDescription\ aWeight\ aRoom
-comment1.target=Item(java.lang.String,\ int,\ Room)
+comment0.text=\r\n\ Contains\ the\ information\ for\ Item\ objects\ created\ in\ the\ game.\r\n\r\n\ @author\ Mark\ Gregory\r\n\ @version\ 2023-02-02\r\n
+comment1.params=aName\ aDescription\ aWeight\ aRoom\ canBePickedUp
+comment1.target=Item(java.lang.String,\ java.lang.String,\ int,\ Room,\ boolean)
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Item\r\n
 comment2.params=
 comment2.target=java.lang.String\ getDescription()

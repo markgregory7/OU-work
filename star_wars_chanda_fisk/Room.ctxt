@@ -1,15 +1,15 @@
 #BlueJ class context
 comment0.target=Room
-comment0.text=\r\n\ Class\ Room\ -\ a\ room\ in\ an\ adventure\ game.\r\n\r\n\ This\ class\ is\ part\ of\ the\ "World\ of\ Zuul"\ application.\ \r\n\ "World\ of\ Zuul"\ is\ a\ very\ simple,\ text\ based\ adventure\ game.\ \ \r\n\r\n\ A\ "Room"\ represents\ one\ location\ in\ the\ scenery\ of\ the\ game.\ \ It\ is\ \r\n\ connected\ to\ other\ rooms\ via\ exits.\ \ The\ exits\ are\ labelled\ north,\ \r\n\ east,\ south,\ west.\ \ For\ each\ direction,\ the\ room\ stores\ a\ reference\r\n\ to\ the\ neighboring\ room,\ or\ null\ if\ there\ is\ no\ exit\ in\ that\ direction.\r\n\ \r\n\ @author\ \ Michael\ K\u00F6lling\ and\ David\ J.\ Barnes.\ Modified\ by\ Mark\ Gregory\r\n\ @version\ 2023-01-26\r\n
+comment0.text=\r\n\ Class\ Room\ -\ a\ room\ in\ an\ adventure\ game.\r\n\r\n\ This\ class\ is\ part\ of\ the\ "World\ of\ Zuul"\ application.\ \r\n\ "World\ of\ Zuul"\ is\ a\ very\ simple,\ text\ based\ adventure\ game.\ \ \r\n\r\n\ A\ "Room"\ represents\ one\ location\ in\ the\ scenery\ of\ the\ game.\ \ It\ is\ \r\n\ connected\ to\ other\ rooms\ via\ exits.\ \ The\ exits\ are\ labelled\ north,\ \r\n\ east,\ south,\ west.\ \ For\ each\ direction,\ the\ room\ stores\ a\ reference\r\n\ to\ the\ neighboring\ room,\ or\ null\ if\ there\ is\ no\ exit\ in\ that\ direction.\r\n\ \r\n\ @author\ \ Michael\ K\u00F6lling\ and\ David\ J.\ Barnes.\ Modified\ by\ Mark\ Gregory\r\n\ @version\ 2023-02-02\r\n
 comment1.params=description
 comment1.target=Room(java.lang.String)
 comment1.text=\r\n\ Create\ a\ room\ described\ "description".\ Initially,\ it\ has\r\n\ no\ exits.\ "description"\ is\ something\ like\ "a\ kitchen"\ or\r\n\ "an\ open\ court\ yard".\r\n\ @param\ description\ The\ room's\ description.\r\n
 comment2.params=direction\ neighbour
 comment2.target=void\ setExit(java.lang.String,\ Room)
 comment2.text=\r\n\ Define\ an\ exit\ from\ this\ room.\r\n\ @param\ direction\ The\ direction\ of\ the\ exit.\r\n\ @param\ neighbour\ The\ room\ in\ the\ given\ direction.\r\n
-comment3.params=aDescription\ aWeight
-comment3.target=void\ createItem(java.lang.String,\ int)
-comment3.text=\r\n\ Creates\ an\ item\ that\ starts\ off\ in\ this\ room.\r\n\ @param\ aDescription\ The\ description\ of\ the\ item\ as\ a\ String.\r\n\ @param\ aWeight\ The\ weight\ of\ the\ item\ as\ an\ int.\r\n
+comment3.params=aName\ aDescription\ aWeight\ canBePickedUp
+comment3.target=void\ addItem(java.lang.String,\ java.lang.String,\ int,\ boolean)
+comment3.text=\ Exercise\ 8.22\r\n\ Adds\ an\ item\ that\ starts\ off\ in\ this\ room.\r\n\ @param\ aDescription\ The\ description\ of\ the\ item\ as\ a\ String.\r\n\ @param\ aWeight\ The\ weight\ of\ the\ item\ as\ an\ int.\r\n
 comment4.params=direction
 comment4.target=Room\ getExit(java.lang.String)
 comment4.text=\r\n\ Returns\ a\ Room\ object\ based\ on\ the\ user's\ chosen\ direction.\r\n
@@ -18,5 +18,5 @@ comment5.target=java.lang.String\ getExitString()
 comment5.text=\r\n\ Return\ a\ string\ describing\ the\ room's\ exits,\ for\ example\r\n\ "Exits\:\ north\ west".\r\n\ @return\ Details\ of\ the\ room's\ exits.\r\n
 comment6.params=
 comment6.target=java.lang.String\ getLongDescription()
-comment6.text=\r\n\ @return\ The\ long\ description\ of\ the\ room\ which\ includes\ exit\r\n\ information.\r\n
+comment6.text=\ Exercise\ 8.20\r\n\ @return\ The\ long\ description\ of\ the\ room\ which\ includes\ exit\r\n\ information\ and\ item\ details\ (if\ any).\r\n
 numComments=7

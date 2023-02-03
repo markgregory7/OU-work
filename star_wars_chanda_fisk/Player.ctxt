@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Player
+comment0.text=\r\n\ Represents\ a\ player\ in\ an\ adventure\ game.\ A\ player\ consists\ of\ a\ name,\r\n\ description,\ collection\ of\ carried\ items,\ a\ maximum\ carrying\ capacity\r\n\ and\ current\ room\ location.\r\n\r\n\ @author\ Mark\ Gregory\r\n\ @version\ 2023-02-02\r\n
+comment1.params=aName\ aDescription\ carryingCapacity\ currentRoom
+comment1.target=Player(java.lang.String,\ java.lang.String,\ int,\ Room)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Player\r\n
+comment2.params=aRoom
+comment2.target=void\ setCurrentRoom(Room)
+comment2.text=\r\n\ Sets\ the\ player's\ current\ room/location.\ Cannot\ be\ null\ i.e.\ the\ player\ must\r\n\ be\ somewhere\!\r\n\r\n\ @param\ aRoom\ The\ Room\ object\ that\ the\ player\ is\ currently\ in/associated\ with.\r\n\ @return\ \ \ \ the\ sum\ of\ x\ and\ y\r\n
+comment3.params=
+comment3.target=Room\ getCurrentRoom()
+comment3.text=\r\n\ Gets\ the\ player's\ current\ room/location.\r\n\r\n\ @param\ aRoom\ The\ Room\ object\ that\ the\ player\ is\ currently\ in/associated\ with.\r\n\ @return\ Room\ The\ reference\ for\ the\ room\ object\ that\ the\ player\ is\ currently\ associated\ with.\r\n
+numComments=4

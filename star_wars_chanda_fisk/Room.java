@@ -14,7 +14,7 @@ import java.util.*;
  * to the neighboring room, or null if there is no exit in that direction.
  * 
  * @author  Michael Kölling and David J. Barnes. Modified by Mark Gregory
- * @version 2023-01-26
+ * @version 2023-02-02
  */
 public class Room 
 {
@@ -44,18 +44,18 @@ public class Room
     {
         exits.put(direction, neighbour);
     }
-    
-    /**
-     * Creates an item that starts off in this room.
+
+    /** Exercise 8.22
+     * Adds an item that starts off in this room.
      * @param aDescription The description of the item as a String.
      * @param aWeight The weight of the item as an int.
      */
-    public void createItem(String aDescription, int aWeight)
+    public void addItem(String aName, String aDescription, int aWeight, boolean canBePickedUp)
     {
-        Item item = new Item(aDescription, aWeight, this);
+        Item item = new Item(aName, aDescription, aWeight, this, canBePickedUp);
         items.add(item);
     }
-    
+
     //Exercise 8.6
     /**
      * Returns a Room object based on the user's chosen direction.
@@ -64,7 +64,7 @@ public class Room
     {
         return exits.get(direction);
     }
-    
+
     /**
      * Return a string describing the room's exits, for example
      * "Exits: north west".
@@ -79,15 +79,21 @@ public class Room
         }
         return returnString;
     }
-    
-    /**
+
+    /** Exercise 8.20
      * @return The long description of the room which includes exit
-     * information.
+     * information and item details (if any).
      */
     public String getLongDescription()
     {
         String roomDetails = description + "\n" + getExitString();
-        // Add here a for loop for item description concantenation.
+        if(!items.isEmpty()){
+            String roomItems = "\nIn the area are the following items:";
+            for(Item item : items){
+                roomItems += "\n" + item.getDescription();
+            }
+            roomDetails += roomItems;
+        }
         return roomDetails;
     }
 
