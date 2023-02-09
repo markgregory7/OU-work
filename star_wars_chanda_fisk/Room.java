@@ -14,7 +14,7 @@ import java.util.*;
  * to the neighboring room, or null if there is no exit in that direction.
  * 
  * @author  Michael Kölling and David J. Barnes. Modified by Mark Gregory
- * @version 2023-02-02
+ * @version 2023-02-07
  */
 public class Room 
 {
@@ -56,6 +56,24 @@ public class Room
         items.add(item);
     }
 
+    /**
+     * Removes an item from the room, probably due to it being picked up.
+     * Note: Currently this method doesn't check the collecton for the
+     * item, the calling method needs to do so...
+     * @param anItem The item to be removed.
+     */
+    public boolean removeItem(Item anItem)
+    {
+        // Check item in colletion? return false if not or other error?
+        if(anItem != null){
+            items.remove(anItem);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
     //Exercise 8.6
     /**
      * Returns a Room object based on the user's chosen direction.
@@ -97,4 +115,8 @@ public class Room
         return roomDetails;
     }
 
+    public List<Item> getItems()
+    {
+        return items;
+    }
 }

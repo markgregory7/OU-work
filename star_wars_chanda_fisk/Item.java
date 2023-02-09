@@ -3,7 +3,7 @@
  * Contains the information for Item objects created in the game.
  *
  * @author Mark Gregory
- * @version 2023-02-02
+ * @version 2023-02-03
  */
 public class Item
 {
@@ -26,6 +26,11 @@ public class Item
         this.canBePickedUp = canBePickedUp;
     }
 
+    public String getName()
+    {
+        return name;
+    }
+    
     public String getDescription()
     {
         return description;
@@ -46,5 +51,8 @@ public class Item
         room = aRoom;
     }
         
-    
+    public boolean getCanBePickedUp()
+    {
+        return canBePickedUp;
+    }
 }
