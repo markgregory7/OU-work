@@ -1,4 +1,3 @@
-
 import java.util.*;
 
 /**
@@ -7,7 +6,7 @@ import java.util.*;
  * and current room location.
  *
  * @author Mark Gregory
- * @version 2023-02-09
+ * @version 2023-02-14
  */
 public class Player
 {
@@ -74,17 +73,12 @@ public class Player
         while(it.hasNext()){
             Item i = it.next();
             String iName = i.getName();
-            System.out.println("iName = " + iName);
-            // If item name is found.
+            //System.out.println("iName = " + iName);
             if(iName.equals(itemName)){
-                // Check current carried weight + new item is not > capacity.
-                // Need to check boolean canBePickedUp 
-                System.out.println("Item name found.");
+                //System.out.println("Item name found.");
                 if(((i.getWeight() + getCurrentCapacity()) <= (carryingCapacity))
                 && (i.getCanBePickedUp())){
-                    // Add item to inventory and remove item from room.
-                    // How to update room items collection?
-                    System.out.println("Item can be picked up.");
+                    //System.out.println("Item can be picked up.");
                     if(currentRoom.removeItem(i)){
                         inventory.add(i);
                         System.out.println("You pick up the " + i.getName());
@@ -93,6 +87,10 @@ public class Player
                     else{
                         return false;
                     }
+                }
+                else if(!i.getCanBePickedUp()){
+                    System.out.println("You are not strong enough to pick up that item.");
+                    return false;
                 }
                 else{
                     System.out.println("You are overburdened. You may have to drop something.");
@@ -118,20 +116,21 @@ public class Player
         }
 
         // Item names so far can only be one word...i.e. "cannon mount" won't work...
+        // Item name in text may have to be emboldened i.e. <mount>.
         String itemName = command.getSecondWord();
 
         Iterator<Item> it = inventory.iterator();
-        System.out.println("itemName = " + itemName);
+        //System.out.println("itemName = " + itemName);
 
         ArrayList<Item> revisedInventory = new ArrayList<>();
 
         while(it.hasNext()){
             Item i = it.next();
             String iName = i.getName();
-            System.out.println("iName = " + iName);
+            //System.out.println("iName = " + iName);
             // If item name is found.
             if(iName.equals(itemName)){
-                System.out.println("Item name found.");
+                //System.out.println("Item name found.");
                 it.remove();
                 System.out.println("You drop the " + i.getName());
                 currentRoom.addItem(i.getName(), i.getDescription(), i.getWeight(),
@@ -141,7 +140,6 @@ public class Player
                 return true;
             }
         }
-        // Copy iterator list to inventory?
         System.out.println(itemName + " was not dropped.");
         return false;
     }
@@ -169,13 +167,33 @@ public class Player
     public void displayInventory()
     {
         System.out.println("You are currently holding: ");
+        int weightCount = 0;
         if(!inventory.isEmpty()){
             for(Item i : inventory){
                 System.out.println(i.getDescription());
+                weightCount += i.getWeight();
             }
         }
         else{
             System.out.println("Nothing.");
         }
+        System.out.println("You are currently carrying " + weightCount + " units in weight, " + 
+            "with " + (carryingCapacity - weightCount) + " remaining." );
+    }
+
+    /** Exercise 8.33 TBC
+     * Player draws apon the Force. Currently called by using the 'absorb' command word
+     * and allows a player to increase their strength by 'picking up' a mote of the force
+     * from a location and 'drawing apon it'/absorbing it.
+     */
+    public boolean drawAponForce()
+    {
+        // Search through player's inventory, absorb first 'mote' item (i.e. delete),
+        // multiply carrying capacity by 5.
+        if(inventory.contains("mote")){
+            return true;
+        }
+        System.out.println("You fail to draw apon the Force.");
+        return false;
     }
 }

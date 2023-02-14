@@ -1,15 +1,12 @@
 #BlueJ class context
 comment0.target=Game
-comment0.text=\r\n\ \ This\ class\ is\ the\ main\ class\ of\ the\ "World\ of\ Zuul"\ application.\ \r\n\ \ "World\ of\ Zuul"\ is\ a\ very\ simple,\ text\ based\ adventure\ game.\ \ Users\ \r\n\ \ can\ walk\ around\ some\ scenery.\ That's\ all.\ It\ should\ really\ be\ extended\ \r\n\ \ to\ make\ it\ more\ interesting\!\r\n\ \r\n\ \ To\ play\ this\ game,\ create\ an\ instance\ of\ this\ class\ and\ call\ the\ "play"\r\n\ \ method.\r\n\ \r\n\ \ This\ main\ class\ creates\ and\ initialises\ all\ the\ others\:\ it\ creates\ all\r\n\ \ rooms,\ creates\ the\ parser\ and\ starts\ the\ game.\ \ It\ also\ evaluates\ and\r\n\ \ executes\ the\ commands\ that\ the\ parser\ returns.\r\n\ \r\n\ \ *\ Modified\ to\ make\ it\ a\ Star\ Wars\ text\ adventure,\ called\ "The\ Training\ of\ \r\n\ \ *\ Chanda\ Fisk"\r\n\ \r\n\ @author\ \ Michael\ K\u00F6lling\ and\ David\ J.\ Barnes.\ Modified\ by\ Mark\ Gregory.\r\n\ @version\ 2023-02-09\r\n
+comment0.text=\r\n\ \ This\ class\ is\ the\ main\ class\ of\ the\ "World\ of\ Zuul"\ application.\ \r\n\ \ "World\ of\ Zuul"\ is\ a\ very\ simple,\ text\ based\ adventure\ game.\ \ Users\ \r\n\ \ can\ walk\ around\ some\ scenery.\ That's\ all.\ It\ should\ really\ be\ extended\ \r\n\ \ to\ make\ it\ more\ interesting\!\r\n\ \r\n\ \ To\ play\ this\ game,\ create\ an\ instance\ of\ this\ class\ and\ call\ the\ "play"\r\n\ \ method.\r\n\ \r\n\ \ This\ main\ class\ creates\ and\ initialises\ all\ the\ others\:\ it\ creates\ all\r\n\ \ rooms,\ creates\ the\ parser\ and\ starts\ the\ game.\ \ It\ also\ evaluates\ and\r\n\ \ executes\ the\ commands\ that\ the\ parser\ returns.\r\n\ \r\n\ \ *\ Modified\ to\ make\ it\ a\ Star\ Wars\ text\ adventure,\ called\ "The\ Training\ of\ \r\n\ \ *\ Chanda\ Fisk"\r\n\ \r\n\ @author\ \ Michael\ K\u00F6lling\ and\ David\ J.\ Barnes.\ Modified\ by\ Mark\ Gregory.\r\n\ @version\ 2023-02-14\r\n
 comment1.params=
 comment1.target=Game()
 comment1.text=\r\n\ Create\ the\ game\ and\ initialise\ its\ internal\ map.\r\n
 comment10.params=
-comment10.target=void\ drawAponForce()
-comment10.text=\ Needs\ to\ move\ to\ Player?\r\n\ Player\ draws\ apon\ the\ Force.\r\n
-comment11.params=
-comment11.target=void\ back()
-comment11.text=\ Exercise\ 8.23\ &\ 8.26\r\n\ Player\ returns\ to\ previous\ room/location.\r\n
+comment10.target=void\ back()
+comment10.text=\ Exercise\ 8.23\ &\ 8.26\r\n\ Player\ returns\ to\ previous\ room/location.\r\n
 comment2.params=
 comment2.target=void\ createRooms()
 comment2.text=\r\n\ Create\ all\ the\ rooms\ and\ link\ their\ exits\ together.\r\n
@@ -34,4 +31,4 @@ comment8.text=\ \r\n\ "Quit"\ was\ entered.\ Check\ the\ rest\ of\ the\ command\
 comment9.params=
 comment9.target=void\ look()
 comment9.text=\r\n\ Prints\ out\ the\ current\ room's\ description.\r\n
-numComments=12
+numComments=11

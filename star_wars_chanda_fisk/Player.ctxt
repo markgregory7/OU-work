@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Player
-comment0.text=\r\n\ Represents\ a\ player\ in\ an\ adventure\ game.\ A\ player\ consists\ of\ a\ name,\r\n\ description,\ collection\ of\ carried\ items,\ a\ maximum\ carrying\ capacity\r\n\ and\ current\ room\ location.\r\n\r\n\ @author\ Mark\ Gregory\r\n\ @version\ 2023-02-09\r\n
+comment0.text=\r\n\ Represents\ a\ player\ in\ an\ adventure\ game.\ A\ player\ consists\ of\ a\ name,\r\n\ description,\ collection\ of\ carried\ items,\ a\ maximum\ carrying\ capacity\r\n\ and\ current\ room\ location.\r\n\r\n\ @author\ Mark\ Gregory\r\n\ @version\ 2023-02-14\r\n
 comment1.params=aName\ aDescription\ carryingCapacity\ currentRoom
 comment1.target=Player(java.lang.String,\ java.lang.String,\ int,\ Room)
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Player\r\n
@@ -22,4 +22,7 @@ comment6.text=\r\n\ Calculates\ and\ returns\ the\ current\ total\ weight\ that\
 comment7.params=
 comment7.target=void\ displayInventory()
 comment7.text=\r\n\ Displays\ the\ player's\ current\ inventory\ of\ items,\ if\ any.\r\n
-numComments=8
+comment8.params=
+comment8.target=boolean\ drawAponForce()
+comment8.text=\ Exercise\ 8.33\ TBC\r\n\ Player\ draws\ apon\ the\ Force.\ Currently\ called\ by\ using\ the\ 'absorb'\ command\ word\r\n\ and\ allows\ a\ player\ to\ increase\ their\ strength\ by\ 'picking\ up'\ a\ mote\ of\ the\ force\r\n\ from\ a\ location\ and\ 'drawing\ apon\ it'/absorbing\ it.\r\n
+numComments=9
