@@ -6,7 +6,7 @@ import java.util.*;
  * and current room location.
  *
  * @author Mark Gregory
- * @version 2023-02-14
+ * @version 2023-03-04
  */
 public class Player
 {
@@ -69,7 +69,7 @@ public class Player
         // Probably need an Iterator here as may be removing an object...
         // Pass itemName to Room method to deal with it's own items?
         Iterator<Item> it = currentRoom.getItems().iterator();
-        System.out.println("itemName = " + itemName);
+        //System.out.println("itemName = " + itemName);
         while(it.hasNext()){
             Item i = it.next();
             String iName = i.getName();
@@ -89,11 +89,12 @@ public class Player
                     }
                 }
                 else if(!i.getCanBePickedUp()){
-                    System.out.println("You are not strong enough to pick up that item.");
+                    System.out.println("It's not possible to pick up that item.");
                     return false;
                 }
                 else{
-                    System.out.println("You are overburdened. You may have to drop something.");
+                    System.out.println("You are not strong enough to pick up that item. " + 
+                    "You may have to drop something.");
                     return false;
                 }
 
@@ -116,7 +117,7 @@ public class Player
         }
 
         // Item names so far can only be one word...i.e. "cannon mount" won't work...
-        // Item name in text may have to be emboldened i.e. <mount>.
+        // Item name in text may have to be emboldened i.e. <mount> to suggest keyword.
         String itemName = command.getSecondWord();
 
         Iterator<Item> it = inventory.iterator();
@@ -140,7 +141,7 @@ public class Player
                 return true;
             }
         }
-        System.out.println(itemName + " was not dropped.");
+        System.out.println("You are not carrying the item " + itemName + ".");
         return false;
     }
 
@@ -183,16 +184,32 @@ public class Player
 
     /** Exercise 8.33 TBC
      * Player draws apon the Force. Currently called by using the 'absorb' command word
-     * and allows a player to increase their strength by 'picking up' a mote of the force
-     * from a location and 'drawing apon it'/absorbing it.
+     * and allows a player to multiply their carrying capacity by 5, by 'picking up' a 
+     * mote of the force from a location and 'drawing apon it'/absorbing it.
      */
     public boolean drawAponForce()
     {
         // Search through player's inventory, absorb first 'mote' item (i.e. delete),
-        // multiply carrying capacity by 5.
-        if(inventory.contains("mote")){
-            return true;
+        // then multiply carrying capacity by 5.
+        
+        Iterator<Item> it = inventory.iterator();
+        ArrayList<Item> revisedInventory = new ArrayList<>();
+
+        while(it.hasNext()){
+            Item i = it.next();
+            String iName = i.getName();
+            if(iName.equals("mote")){
+                //System.out.println("mote found.");
+                it.remove();
+                System.out.println("You absorb the mote of the Force and feel stronger.");
+                // Need to copy from Iterator back to inventory here...?
+                it.forEachRemaining(revisedInventory::add);
+                // Increase the player's carrying capacity.
+                carryingCapacity = carryingCapacity * 5;
+                return true;
+            }
         }
+        
         System.out.println("You fail to draw apon the Force.");
         return false;
     }
