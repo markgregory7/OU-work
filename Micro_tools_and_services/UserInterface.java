@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.text.DecimalFormat;
 
 /**
  * UserInterface is the main class of the Fuel Cost Calculator application. It builds and
@@ -12,7 +13,7 @@ import javax.swing.*;
  * David J. Barnes. 
  * 
  * @author Mark Gregory.
- * @version 1.0, 2022-11-10
+ * @version 1.1, 2023-06-04 - Added litres used to display.
  */
 public class UserInterface //extends JFrame //implements ActionListener
 {
@@ -30,6 +31,9 @@ public class UserInterface //extends JFrame //implements ActionListener
 
     private JButton totalCostFuelButton;
     private JTextField totalCostFuelText;
+    
+    private JLabel litresUsedLabel;
+    private JTextField litresUsedText;
 
     /**
      * Constructor for objects of class UserInterface
@@ -50,7 +54,8 @@ public class UserInterface //extends JFrame //implements ActionListener
 
         Container contentPane = frame.getContentPane();
 
-        contentPane.setLayout(new GridLayout(2, 8));
+        //contentPane.setLayout(new GridLayout(2, 8));
+        contentPane.setLayout(new GridLayout(5, 2));
 
         milesTraveledLabel = new JLabel("Miles Traveled");
         changeFontAndAlign(milesTraveledLabel);
@@ -81,12 +86,21 @@ public class UserInterface //extends JFrame //implements ActionListener
         changeFontAndAlign(totalCostFuelButton);
         contentPane.add(totalCostFuelButton);
         totalCostFuelButton.addActionListener(e -> calculate());
-
+        
         // Displays the result.
         totalCostFuelText = new JTextField();
         contentPane.add(totalCostFuelText);
-        changeFontAndAlign(totalCostFuelText);
+        changeFontAndAlign(totalCostFuelText);  
+              
+        // Display the total number of litres of fuel used.
+        litresUsedLabel = new JLabel("Litres Used");
+        changeFontAndAlign(litresUsedLabel);
+        contentPane.add(litresUsedLabel);
 
+        litresUsedText = new JTextField();
+        contentPane.add(litresUsedText);
+        changeFontAndAlign(litresUsedText);
+        
         // Arrange the components and show.
         frame.pack();
         frame.setVisible(true);
@@ -133,6 +147,9 @@ public class UserInterface //extends JFrame //implements ActionListener
             }
             journeyCost = new FuelCostCalculator(miles, ppl, mpg);
             totalCostFuelText.setText(journeyCost.calcCost());
+            // Need to get the litres used and then display.
+            String strLitresUsed = new DecimalFormat("#0.00").format(journeyCost.getLitresUsed());
+            litresUsedText.setText(strLitresUsed);
         }
         catch(NumberFormatException e) {
             //System.out.println("catch block reached");
@@ -211,7 +228,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     {
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(frame, 
-            "FuelCostCalc by Mark Gregory\n" + "Version: 1.0, 2022-11-10",
+            "FuelCostCalc by Mark Gregory\n" + "Version: 1.1, 2023-06-04",
             "About FuelCostCalc", 
             JOptionPane.INFORMATION_MESSAGE);
     }

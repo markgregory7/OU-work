@@ -7,7 +7,7 @@ all he/she needs to know. The comments should usually include at least:
 PROJECT TITLE: FuelCostCalc
 PURPOSE OF PROJECT: Enable the calculation of how much a trip costed (or will cost) in british
 pounds using miles, miles-per-gallon (imperial) and pence-per-litre. 
-VERSION & DATE: 1.0, 2022/11/01
+VERSION & DATE: 1.1, 2023/06/04
 HOW TO START THIS PROJECT: Using the main method, type 'java FuelCostCalc' in the package's main
 directory (you will need java installed for this to work); or by creating an instance of the
  UserInterface in BlueJ or similar program.
