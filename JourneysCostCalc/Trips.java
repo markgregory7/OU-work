@@ -21,9 +21,9 @@ public class Trips
         journeys = new ArrayList<>();
     }
 
-    /** TO BE COMPLETED
+    /** 
      * Creates a CSV file of the current collection of journeys and saves it to the
-     * local directory.
+     * local directory. Individual entities are stored as 6 Strings, plus "\n"
      * 
      * @param filename The name of the file that it will be saved under. 
      * Use *.csv nomenclature.
@@ -47,9 +47,9 @@ public class Trips
         }
     }
 
-    /** TO BE COMPLETED
+    /** 
      * Reads a CSV file from the local directory and adds each Journey object to the 
-     * current journey list. Individual entities are stored as 6 Strings plus \n.
+     * current journey list. Individual entities are stored as 6 Strings, plus "\n".
      * 
      * @param filename The name of the file that will be read.
      */

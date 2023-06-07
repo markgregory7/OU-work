@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.text.DecimalFormat;
 
 /**
  * UserInterface is the main class of the Fuel Cost Calculator application. It builds and
@@ -12,7 +13,7 @@ import javax.swing.*;
  * David J. Barnes. 
  * 
  * @author Mark Gregory.
- * @version 0.1, 2022-12-13
+ * @version 0.2, 2023-06-07 - Added litres to display.
  */
 public class UserInterface //extends JFrame //implements ActionListener
 {
@@ -43,6 +44,9 @@ public class UserInterface //extends JFrame //implements ActionListener
     private JButton saveJourneyButton;
     private JTextField saveJourneyText;
     
+    private JLabel litresUsedLabel;
+    private JTextField litresUsedText;
+    
     /**
      * Constructor for objects of class UserInterface
      */
@@ -62,22 +66,8 @@ public class UserInterface //extends JFrame //implements ActionListener
 
         Container contentPane = frame.getContentPane();
 
-        contentPane.setLayout(new GridLayout(2, 10));
-
-        // Button to load a saved journey. TBC
-        loadJourneyButton = new JButton("Load a Journey");
-        changeFontAndAlign(loadJourneyButton);
-        contentPane.add(loadJourneyButton);
-        //totalCostFuelButton.addActionListener(e -> calculate());
-        
-        journeyNumberLabel = new JLabel("Journey Number");
-        changeFontAndAlign(journeyNumberLabel);
-        contentPane.add(journeyNumberLabel);
-        
-        journeyNumberText = new JTextField();
-        contentPane.add(journeyNumberText);
-        changeFontAndAlign(journeyNumberText);
-        
+        contentPane.setLayout(new GridLayout(10, 2));
+               
         milesTraveledLabel = new JLabel("Miles Traveled");
         changeFontAndAlign(milesTraveledLabel);
         contentPane.add(milesTraveledLabel);
@@ -94,19 +84,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         contentPane.add(currentMpgText);
         changeFontAndAlign(currentMpgText);
 
-        // Button to save the current journey. TBC
-        saveJourneyButton = new JButton("Save Current Journey");
-        changeFontAndAlign(saveJourneyButton);
-        contentPane.add(saveJourneyButton);
-        //totalCostFuelButton.addActionListener(e -> calculate());
-        
-        journeyNameLabel = new JLabel("Journey Name");
-        changeFontAndAlign(journeyNameLabel);
-        contentPane.add(journeyNameLabel);
-        
-        journeyNameText = new JTextField();
-        contentPane.add(journeyNameText);
-        changeFontAndAlign(journeyNameText);
+
         
         pencePerLitreLabel = new JLabel("Pence Per Litre");
         changeFontAndAlign(pencePerLitreLabel);
@@ -126,7 +104,44 @@ public class UserInterface //extends JFrame //implements ActionListener
         totalCostFuelText = new JTextField();
         contentPane.add(totalCostFuelText);
         changeFontAndAlign(totalCostFuelText);
+        
+        // Display the total number of litres of fuel used.
+        litresUsedLabel = new JLabel("Litres Used");
+        changeFontAndAlign(litresUsedLabel);
+        contentPane.add(litresUsedLabel);
 
+        litresUsedText = new JTextField();
+        contentPane.add(litresUsedText);
+        changeFontAndAlign(litresUsedText);
+        
+        // Button to load a saved journey. TBC
+        loadJourneyButton = new JButton("Load a Journey");
+        changeFontAndAlign(loadJourneyButton);
+        contentPane.add(loadJourneyButton);
+        //totalCostFuelButton.addActionListener(e -> calculate());
+        
+        journeyNumberLabel = new JLabel("Journey Number");
+        changeFontAndAlign(journeyNumberLabel);
+        contentPane.add(journeyNumberLabel);
+        
+        journeyNumberText = new JTextField();
+        contentPane.add(journeyNumberText);
+        changeFontAndAlign(journeyNumberText);
+
+        // Button to save the current journey. TBC
+        saveJourneyButton = new JButton("Save Current Journey");
+        changeFontAndAlign(saveJourneyButton);
+        contentPane.add(saveJourneyButton);
+        //totalCostFuelButton.addActionListener(e -> calculate());
+        
+        journeyNameLabel = new JLabel("Journey Name");
+        changeFontAndAlign(journeyNameLabel);
+        contentPane.add(journeyNameLabel);
+        
+        journeyNameText = new JTextField();
+        contentPane.add(journeyNameText);
+        changeFontAndAlign(journeyNameText);
+        
         // Arrange the components and show.
         frame.pack();
         frame.setVisible(true);
@@ -173,6 +188,9 @@ public class UserInterface //extends JFrame //implements ActionListener
             }
             journeyCost = new FuelCostCalculator(miles, ppl, mpg);
             totalCostFuelText.setText(journeyCost.calcCost());
+            // Need to get the litres used and then display.
+            String strLitresUsed = new DecimalFormat("#0.00").format(journeyCost.getLitresUsed());
+            litresUsedText.setText(strLitresUsed);
         }
         catch(NumberFormatException e) {
             //System.out.println("catch block reached");
@@ -251,7 +269,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     {
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(frame, 
-            "JourneyCostCalc by Mark Gregory\n" + "Version: 0.1, 2022-11-29",
+            "JourneyCostCalc by Mark Gregory\n" + "Version: 0.2, 2023-06-07",
             "About JourneyCostCalc", 
             JOptionPane.INFORMATION_MESSAGE);
     }

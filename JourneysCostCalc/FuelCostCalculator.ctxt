@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=FuelCostCalculator
-comment0.text=\r\n\ FuelCostCalc\ calculates\ how\ much\ a\ trip\ cost\ in\ fuel\ in\ British\r\n\ pounds,\ by\ using\ supplied\ miles\ travelled,\ miles-per-gallon\ (imperial)\ and\r\n\ pence-per-litre\ variables.\r\n\r\n\ @author\ \ Mark\ Gregory\r\n\ @version\ 2022-10-27\ \ \ \ \r\n
+comment0.text=\r\n\ FuelCostCalc\ calculates\ how\ much\ a\ trip\ cost\ in\ fuel\ in\ British\r\n\ pounds,\ by\ using\ supplied\ miles\ travelled,\ miles-per-gallon\ (imperial)\ and\r\n\ pence-per-litre\ variables.\r\n\r\n\r\n\ @author\ \ Mark\ Gregory\r\n\ @version\ 2023-06-04\ -\ Adding\ ability\ to\ display\ total\ of\ litres\ used.\ \ \ \ \r\n
 comment1.params=milesTravelled\ pencePerLitre\ mpg
 comment1.target=FuelCostCalculator(double,\ double,\ double)
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ FuelCostCalculator\r\n
@@ -14,9 +14,12 @@ comment4.params=
 comment4.target=double\ getCurrentMpg()
 comment4.text=\r\n\ Returns\ currentMpg.\r\n
 comment5.params=
-comment5.target=java.lang.String\ calcCost()
-comment5.text=\r\n\ Calculates\ the\ cost\ of\ petrol\ for\ the\ miles\ travelled.\r\n\r\n\ @return\ \ \ \ a\ double\ formatted\ to\ be\ in\ pounds\ and\ pence.\r\n
+comment5.target=double\ getLitresUsed()
+comment5.text=\r\n\ Returns\ litresUsed.\r\n
 comment6.params=
-comment6.target=java.lang.String\ toString()
-comment6.text=\r\n\ Return\ a\ String\ representaion\ of\ a\ FuelCostCalculator\ including\r\n\ miles\ travelled,\ pence-per-litre\ and\ miles-per-gallon.\r\n
-numComments=7
+comment6.target=java.lang.String\ calcCost()
+comment6.text=\r\n\ Calculates\ the\ cost\ of\ petrol\ for\ the\ miles\ travelled.\r\n\r\n\ @return\ \ \ \ a\ double\ formatted\ to\ be\ in\ pounds\ and\ pence.\r\n
+comment7.params=
+comment7.target=java.lang.String\ toString()
+comment7.text=\r\n\ Return\ a\ String\ representaion\ of\ a\ FuelCostCalculator\ including\r\n\ miles\ travelled,\ pence-per-litre\ and\ miles-per-gallon.\r\n
+numComments=8
