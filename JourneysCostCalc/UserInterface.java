@@ -14,6 +14,7 @@ import java.text.DecimalFormat;
  * 
  * @author Mark Gregory.
  * @version 0.2, 2023-06-07 - Added litres to display.
+ * @version 0.3, 2023-07-23 - Removed lables for load/save buttons
  */
 public class UserInterface //extends JFrame //implements ActionListener
 {
@@ -120,9 +121,9 @@ public class UserInterface //extends JFrame //implements ActionListener
         contentPane.add(loadJourneyButton);
         //totalCostFuelButton.addActionListener(e -> calculate());
         
-        journeyNumberLabel = new JLabel("Journey Number");
-        changeFontAndAlign(journeyNumberLabel);
-        contentPane.add(journeyNumberLabel);
+        //journeyNumberLabel = new JLabel("Journey Number");
+        //changeFontAndAlign(journeyNumberLabel);
+        //contentPane.add(journeyNumberLabel);
         
         journeyNumberText = new JTextField();
         contentPane.add(journeyNumberText);
@@ -134,9 +135,9 @@ public class UserInterface //extends JFrame //implements ActionListener
         contentPane.add(saveJourneyButton);
         //totalCostFuelButton.addActionListener(e -> calculate());
         
-        journeyNameLabel = new JLabel("Journey Name");
-        changeFontAndAlign(journeyNameLabel);
-        contentPane.add(journeyNameLabel);
+        //journeyNameLabel = new JLabel("Journey Name");
+        //changeFontAndAlign(journeyNameLabel);
+        //contentPane.add(journeyNameLabel);
         
         journeyNameText = new JTextField();
         contentPane.add(journeyNameText);
@@ -269,7 +270,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     {
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(frame, 
-            "JourneyCostCalc by Mark Gregory\n" + "Version: 0.2, 2023-06-07",
+            "JourneyCostCalc by Mark Gregory\n" + "Version: 0.3, 2023-07-23",
             "About JourneyCostCalc", 
             JOptionPane.INFORMATION_MESSAGE);
     }
