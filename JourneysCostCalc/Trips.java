@@ -7,7 +7,7 @@ import java.io.*;
  * retrieved or modified at a later date storing the data as a csv file.
  *
  * @author Mark Gregory
- * @version 2023-01-20
+ * @version 2023-09-22
  */
 public class Trips
 {
@@ -21,6 +21,9 @@ public class Trips
         journeys = new ArrayList<>();
     }
 
+    // The following will currently be the method that is called from the GUI to save
+    // a journey. Needs to incorporate a default filename of 'journeys.csv'.
+    
     /** 
      * Creates a CSV file of the current collection of journeys and saves it to the
      * local directory. Individual entities are stored as 6 Strings, plus "\n"
@@ -47,15 +50,20 @@ public class Trips
         }
     }
 
+    // The following will currently be the method that is called from the GUI to load
+    // a journey. Needs to incorporate a default filename of 'journeys.csv'. 
+    
     /** 
      * Reads a CSV file from the local directory and adds each Journey object to the 
      * current journey list. Individual entities are stored as 6 Strings, plus "\n".
      * 
      * @param filename The name of the file that will be read.
      */
-    public void readCSVFile(String filename)
+    //public void readCSVFile(String filename)
+    public void readCSVFile()
     {
-        try(Scanner scanner = new Scanner(new File(filename))){
+        // try(Scanner scanner = new Scanner(new File(filename))){
+        try(Scanner scanner = new Scanner(new File(journeys.))){
             ArrayList<Journey> transferList = new ArrayList<Journey>();
             scanner.useDelimiter(",");
 
@@ -91,6 +99,7 @@ public class Trips
      */
     public void printJourneys()
     {
+        System.out.println("printJourneys called");
         for(Journey jny : journeys){
             System.out.println(jny);         
         }

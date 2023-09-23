@@ -14,17 +14,21 @@ import java.text.DecimalFormat;
  * 
  * @author Mark Gregory.
  * @version 0.2, 2023-06-07 - Added litres to display.
- * @version 0.3, 2023-07-23 - Removed lables for load/save buttons
+ * @version 0.3, 2023-07-24 - Removed lables for load/save buttons.
+ * @version 0.4, 2023-09-22 - Adding save/load functionality for 'trips'.
  */
 public class UserInterface //extends JFrame //implements ActionListener
 {
     private FuelCostCalculator journeyCost;
     private JFrame frame;
-
-    private JLabel journeyNumberLabel;
+    
+    // Trip object for creating and saving trips?
+    private Trips trips;
+    
+    //private JLabel journeyNumberLabel;
     private JTextField journeyNumberText;
     
-    private JLabel journeyNameLabel;
+    //private JLabel journeyNameLabel;
     private JTextField journeyNameText;
     
     private JLabel milesTraveledLabel;      
@@ -84,9 +88,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         currentMpgText = new JTextField();
         contentPane.add(currentMpgText);
         changeFontAndAlign(currentMpgText);
-
-
-        
+   
         pencePerLitreLabel = new JLabel("Pence Per Litre");
         changeFontAndAlign(pencePerLitreLabel);
         contentPane.add(pencePerLitreLabel);
@@ -119,7 +121,8 @@ public class UserInterface //extends JFrame //implements ActionListener
         loadJourneyButton = new JButton("Load a Journey");
         changeFontAndAlign(loadJourneyButton);
         contentPane.add(loadJourneyButton);
-        //totalCostFuelButton.addActionListener(e -> calculate());
+        // Display a window with available journeys to load and allow
+        // user to select?
         
         //journeyNumberLabel = new JLabel("Journey Number");
         //changeFontAndAlign(journeyNumberLabel);
@@ -147,7 +150,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         frame.pack();
         frame.setVisible(true);
     }
-
+    
     /**
      * Calculates the journey cost by creating a FuelCostCalculator object from the UI's JTextFields
      * values (converting them to Doubles) and then calling its calcCost method.
@@ -270,7 +273,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     {
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(frame, 
-            "JourneyCostCalc by Mark Gregory\n" + "Version: 0.3, 2023-07-23",
+            "JourneyCostCalc by Mark Gregory\n" + "Version: 0.4, 2023-07-29",
             "About JourneyCostCalc", 
             JOptionPane.INFORMATION_MESSAGE);
     }
