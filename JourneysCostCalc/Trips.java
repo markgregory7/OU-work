@@ -1,3 +1,4 @@
+
 import java.util.*;
 import java.io.*;
 //import java.util.Date; // Needed?
@@ -7,7 +8,7 @@ import java.io.*;
  * retrieved or modified at a later date storing the data as a csv file.
  *
  * @author Mark Gregory
- * @version 2023-09-22
+ * @version 2023-10-11
  */
 public class Trips
 {
@@ -62,8 +63,10 @@ public class Trips
     //public void readCSVFile(String filename)
     public void readCSVFile()
     {
-        // try(Scanner scanner = new Scanner(new File(filename))){
-        try(Scanner scanner = new Scanner(new File(journeys.))){
+        // Currently 8/10/23 this method is making all journeyNos the same... (2 items, number = 2)
+        // Why not all data overwritten? Primative vs String/objects and therefore refrences?
+        String filename = "journeys.csv";
+        try(Scanner scanner = new Scanner(new File(filename))){
             ArrayList<Journey> transferList = new ArrayList<Journey>();
             scanner.useDelimiter(",");
 
@@ -72,16 +75,27 @@ public class Trips
                 String[] csvValueArray = currentLineText.split(",");
                 // csv data is stored as 6 Strings plus \n, then needs to be converted back...
                 int journeyNo = Integer.parseInt(csvValueArray[0]);
+                System.out.println("journeyNo = " + journeyNo);
                 String journeyName = csvValueArray[1];
                 Date date = new Date(csvValueArray[2]);
                 // Would the following be better as Double obs as converting Strings?           
                 double miles = Double.parseDouble(csvValueArray[3]);
                 double pencePerLitre = Double.parseDouble(csvValueArray[4]);
-                double mpg = Double.parseDouble(csvValueArray[4]);
-                FuelCostCalculator fcc = new FuelCostCalculator(miles, pencePerLitre, mpg);
+                double mpg = Double.parseDouble(csvValueArray[5]);
                 
+                FuelCostCalculator fcc = new FuelCostCalculator(miles, pencePerLitre, mpg);
                 Journey jcc = new Journey(journeyNo, journeyName, date, fcc);
+                System.out.println("After new Journey object created: journeyNo = " + jcc.getJourneyNumber());
+                
                 transferList.add(jcc);
+                
+                // The below shows that journeyNo is incrementing by one for all entries...
+                System.out.println("Printing journey details currently in transferList:");
+                for(Journey jny : transferList){
+                    System.out.println(jny);         
+                }
+                System.out.println("");
+                
             }
             journeys.addAll(transferList);
         }

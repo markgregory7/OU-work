@@ -8,7 +8,8 @@ import java.text.DecimalFormat;
  *
  *
  * @author  Mark Gregory
- * @version 2023-06-04 - Adding ability to display total of litres used.    
+ * @version 2023-10-08 - Adding ability to display total of litres used. Updated toString method, plus it will omit litresUsed if 0.0
+ * (i.e. calcCost has not been run).
  */
 public class FuelCostCalculator
 {
@@ -83,8 +84,14 @@ public class FuelCostCalculator
     @Override
     public String toString()
     {
-        String outputString = String.format("Miles travelled is %s, pence-per-litre is " + 
+        if(litresUsed == 0.0){
+            String outputString = String.format("Miles travelled is %s, pence-per-litre is " + 
+            "%s, and miles-per-gallon is %s.", milesTravelled, pencePerLitre, currentMpg);
+            return outputString;
+        } else {
+            String outputString = String.format("Miles travelled is %s, pence-per-litre is " + 
             "%s, litres used equals %s, and miles-per-gallon is %s.", milesTravelled, pencePerLitre, litresUsed, currentMpg);
-        return outputString;
+            return outputString;
+        }
     }
 }

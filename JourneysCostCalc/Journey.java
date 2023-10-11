@@ -6,7 +6,7 @@ import java.util.Date;
  * and FuelCostCalculator object.
  *
  * @author Mark Gregory
- * @version 2023-01-20
+ * @version 2023-10-08
  */
 public class Journey
 {
@@ -24,6 +24,11 @@ public class Journey
         journeyName = aName;
         date = aDate;
         journeyFcc = aFcc;
+    }
+    
+    public Journey()
+    {
+        defaultJourney();
     }
     
     public void defaultJourney()
