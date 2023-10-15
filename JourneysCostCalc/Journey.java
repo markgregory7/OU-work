@@ -6,11 +6,11 @@ import java.util.Date;
  * and FuelCostCalculator object.
  *
  * @author Mark Gregory
- * @version 2023-10-08
+ * @version 2023-10-15 - Modified so journeyNumber is no longer static, was causing issues reading from csv file in Trips.
  */
 public class Journey
 {
-    private static int journeyNumber;
+    private int journeyNumber;
     private String journeyName;
     private Date date;
     private FuelCostCalculator journeyFcc;
