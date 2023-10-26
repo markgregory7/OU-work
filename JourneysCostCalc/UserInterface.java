@@ -15,11 +15,12 @@ import java.text.DecimalFormat;
  * @author Mark Gregory.
  * @version 0.2, 2023-06-07 - Added litres to display.
  * @version 0.3, 2023-07-24 - Removed lables for load/save buttons.
- * @version 0.4, 2023-09-22 - Adding save/load functionality for 'trips'.
+ * @version 0.4, 2023-10-23 - Adding save/load functionality for 'trips'.
  */
 public class UserInterface //extends JFrame //implements ActionListener
 {
     private FuelCostCalculator journeyCost;
+    private Trips currentTrips;
     private JFrame frame;
     
     // Trip object for creating and saving trips?
@@ -58,6 +59,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     public UserInterface()
     {
         journeyCost = null;
+        currentTrips = null;
         makeFrame();
     }
 
@@ -66,9 +68,9 @@ public class UserInterface //extends JFrame //implements ActionListener
      */
     private void makeFrame()
     {
-        frame = new JFrame("Fuel Cost Calculator");
+        frame = new JFrame("Journeys Cost Calculator");
         makeMenuBar(frame);
-
+        
         Container contentPane = frame.getContentPane();
 
         contentPane.setLayout(new GridLayout(10, 2));
@@ -123,6 +125,8 @@ public class UserInterface //extends JFrame //implements ActionListener
         contentPane.add(loadJourneyButton);
         // Display a window with available journeys to load and allow
         // user to select?
+        // Call loadJourney method.
+        //totalCostFuelButton.addActionListener(e -> calculate());
         
         //journeyNumberLabel = new JLabel("Journey Number");
         //changeFontAndAlign(journeyNumberLabel);
@@ -136,6 +140,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         saveJourneyButton = new JButton("Save Current Journey");
         changeFontAndAlign(saveJourneyButton);
         contentPane.add(saveJourneyButton);
+        //Call saveJourney method.
         //totalCostFuelButton.addActionListener(e -> calculate());
         
         //journeyNameLabel = new JLabel("Journey Name");
@@ -149,6 +154,27 @@ public class UserInterface //extends JFrame //implements ActionListener
         // Arrange the components and show.
         frame.pack();
         frame.setVisible(true);
+    }
+    
+    /**
+     * Load a Journey.
+     */
+    private void loadJourney()
+    {
+        // Check currentTrips not null?
+        // Has csv file been already read?
+        // Read csv file and print out current list of saved journeys.
+        // User selects journey by number....
+        // If current MPG text boxes etc have data check if ok to clear?
+    }
+    
+    /**
+     * Save current Journey.
+     */
+    private void saveJourney()
+    {
+        // Check journey with same number does not alread excist? If it does ask ok to overwrite?
+        // Else generate new number and save to csv.
     }
     
     /**
@@ -273,8 +299,8 @@ public class UserInterface //extends JFrame //implements ActionListener
     {
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(frame, 
-            "JourneyCostCalc by Mark Gregory\n" + "Version: 0.4, 2023-07-29",
-            "About JourneyCostCalc", 
+            "JourneysCostCalc by Mark Gregory\n" + "Version: 0.4, 2023-10-23",
+            "About JourneysCostCalc", 
             JOptionPane.INFORMATION_MESSAGE);
     }
 
