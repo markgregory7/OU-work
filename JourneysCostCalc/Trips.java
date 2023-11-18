@@ -7,11 +7,11 @@ import java.io.*;
  * retrieved or modified at a later date storing the data as a csv file.
  *
  * @author Mark Gregory
- * @version 2023-10-15
+ * @version 2023-11-18
  */
 public class Trips
 {
-    private List<Journey> journeys;
+    private ArrayList<Journey> journeys;
 
     /**
      * Constructor for objects of class Trips
@@ -57,6 +57,7 @@ public class Trips
      * current journey list. Individual entities are stored as 6 Strings, plus "\n".
      * 
      * @param filename The name of the file that will be read.
+     * @return // return an array list of journeys?
      */
     //public void readCSVFile(String filename)
     public void readCSVFile()
@@ -91,6 +92,7 @@ public class Trips
         catch(IOException e){
             System.err.println("There was a problem reading " + filename);
         }
+
     }
 
     /** 
@@ -99,10 +101,25 @@ public class Trips
      */
     public void printJourneys()
     {
+        //for(Journey jny : journeys){
+        //    System.out.println(jny);         
+        //}
+        //System.out.println("");
+        System.out.println(journeys);
+    }
+    
+    /**
+     * Return a String representaion of a Trip object including...
+     */
+    @Override
+    public String toString()
+    {
+        // Return a String of the ArrayList of journeys
+        String outputString = "";
         for(Journey jny : journeys){
-            System.out.println(jny);         
+            outputString += jny + "\n";
         }
-        System.out.println("");
+        return outputString;
     }
 
 }

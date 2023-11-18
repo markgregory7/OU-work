@@ -15,23 +15,22 @@ import java.text.DecimalFormat;
  * @author Mark Gregory.
  * @version 0.2, 2023-06-07 - Added litres to display.
  * @version 0.3, 2023-07-24 - Removed lables for load/save buttons.
- * @version 0.4, 2023-10-23 - Adding save/load functionality for 'trips'.
+ * @version 0.4, 2023-11-18 - Adding save/load functionality for 'trips'.
  */
 public class UserInterface //extends JFrame //implements ActionListener
 {
     private FuelCostCalculator journeyCost;
-    private Trips currentTrips;
     private JFrame frame;
-    
+
     // Trip object for creating and saving trips?
-    private Trips trips;
-    
+    private Trips currentTrips;
+
     //private JLabel journeyNumberLabel;
     private JTextField journeyNumberText;
-    
+
     //private JLabel journeyNameLabel;
     private JTextField journeyNameText;
-    
+
     private JLabel milesTraveledLabel;      
     private JTextField milesTraveledText;
 
@@ -46,13 +45,13 @@ public class UserInterface //extends JFrame //implements ActionListener
 
     private JButton loadJourneyButton;
     private JTextField loadJourneyText;
-    
+
     private JButton saveJourneyButton;
     private JTextField saveJourneyText;
-    
+
     private JLabel litresUsedLabel;
     private JTextField litresUsedText;
-    
+
     /**
      * Constructor for objects of class UserInterface
      */
@@ -70,11 +69,11 @@ public class UserInterface //extends JFrame //implements ActionListener
     {
         frame = new JFrame("Journeys Cost Calculator");
         makeMenuBar(frame);
-        
+
         Container contentPane = frame.getContentPane();
 
         contentPane.setLayout(new GridLayout(10, 2));
-               
+
         milesTraveledLabel = new JLabel("Miles Traveled");
         changeFontAndAlign(milesTraveledLabel);
         contentPane.add(milesTraveledLabel);
@@ -90,7 +89,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         currentMpgText = new JTextField();
         contentPane.add(currentMpgText);
         changeFontAndAlign(currentMpgText);
-   
+
         pencePerLitreLabel = new JLabel("Pence Per Litre");
         changeFontAndAlign(pencePerLitreLabel);
         contentPane.add(pencePerLitreLabel);
@@ -109,7 +108,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         totalCostFuelText = new JTextField();
         contentPane.add(totalCostFuelText);
         changeFontAndAlign(totalCostFuelText);
-        
+
         // Display the total number of litres of fuel used.
         litresUsedLabel = new JLabel("Litres Used");
         changeFontAndAlign(litresUsedLabel);
@@ -118,7 +117,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         litresUsedText = new JTextField();
         contentPane.add(litresUsedText);
         changeFontAndAlign(litresUsedText);
-        
+
         // Button to load a saved journey. TBC
         loadJourneyButton = new JButton("Load a Journey");
         changeFontAndAlign(loadJourneyButton);
@@ -126,12 +125,13 @@ public class UserInterface //extends JFrame //implements ActionListener
         // Display a window with available journeys to load and allow
         // user to select?
         // Call loadJourney method.
+        loadJourneyButton.addActionListener(e -> loadJourney());
         //totalCostFuelButton.addActionListener(e -> calculate());
-        
+
         //journeyNumberLabel = new JLabel("Journey Number");
         //changeFontAndAlign(journeyNumberLabel);
         //contentPane.add(journeyNumberLabel);
-        
+
         journeyNumberText = new JTextField();
         contentPane.add(journeyNumberText);
         changeFontAndAlign(journeyNumberText);
@@ -142,32 +142,40 @@ public class UserInterface //extends JFrame //implements ActionListener
         contentPane.add(saveJourneyButton);
         //Call saveJourney method.
         //totalCostFuelButton.addActionListener(e -> calculate());
-        
+
         //journeyNameLabel = new JLabel("Journey Name");
         //changeFontAndAlign(journeyNameLabel);
         //contentPane.add(journeyNameLabel);
-        
+
         journeyNameText = new JTextField();
         contentPane.add(journeyNameText);
         changeFontAndAlign(journeyNameText);
-        
+
         // Arrange the components and show.
         frame.pack();
         frame.setVisible(true);
     }
-    
+
     /**
      * Load a Journey.
      */
     private void loadJourney()
     {
-        // Check currentTrips not null?
+        // Check currentTrips is null? If so try to load a file?
+        if(currentTrips == null){
+            //May have to change Trip read file to return rather than void 
+            //Trip objects handle their own file loading... 
+            Trips tempTrips = new Trips();
+            tempTrips.readCSVFile();
+            //currentTrips.readCSVFile(); // Null pointer error...
+            System.out.println(tempTrips); 
+        }
         // Has csv file been already read?
         // Read csv file and print out current list of saved journeys.
         // User selects journey by number....
         // If current MPG text boxes etc have data check if ok to clear?
     }
-    
+
     /**
      * Save current Journey.
      */
@@ -176,7 +184,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         // Check journey with same number does not alread excist? If it does ask ok to overwrite?
         // Else generate new number and save to csv.
     }
-    
+
     /**
      * Calculates the journey cost by creating a FuelCostCalculator object from the UI's JTextFields
      * values (converting them to Doubles) and then calling its calcCost method.
@@ -246,7 +254,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     /**
      * Updates the font, size and horizontal alignment for a JTextField.
      * @param textField The JTextField to be modified.
-    */
+     */
     private void changeFontAndAlign(JTextField textField)
     {
         textField.setFont(new Font("SansSerif", Font.BOLD, 20));
