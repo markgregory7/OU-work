@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
  * @author Mark Gregory.
  * @version 0.2, 2023-06-07 - Added litres to display.
  * @version 0.3, 2023-07-24 - Removed lables for load/save buttons.
- * @version 0.4, 2023-11-18 - Adding save/load functionality for 'trips'.
+ * @version 0.4, 2023-11-25 - Adding save/load functionality for 'trips'.
  */
 public class UserInterface //extends JFrame //implements ActionListener
 {
@@ -161,19 +161,20 @@ public class UserInterface //extends JFrame //implements ActionListener
      */
     private void loadJourney()
     {
+        // Has csv file been already read?
         // Check currentTrips is null? If so try to load a file?
         if(currentTrips == null){
-            //May have to change Trip read file to return rather than void 
             //Trip objects handle their own file loading... 
             Trips tempTrips = new Trips();
             tempTrips.readCSVFile();
-            //currentTrips.readCSVFile(); // Null pointer error...
-            System.out.println(tempTrips); 
+            // Read csv file and print out current list of saved journeys.
+            System.out.println(tempTrips); // Replace with a pop up window?
+            currentTrips = tempTrips;
+            //At this point currentTrips has been replaced with journey objects loaded from file.
         }
-        // Has csv file been already read?
-        // Read csv file and print out current list of saved journeys.
         // User selects journey by number....
         // If current MPG text boxes etc have data check if ok to clear?
+        // Load stored data into fields so calc can be run (or just automatically run calc?)
     }
 
     /**
@@ -182,6 +183,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     private void saveJourney()
     {
         // Check journey with same number does not alread excist? If it does ask ok to overwrite?
+        // Is current data in fields valid? Currently only checked on 'calculate' call...
         // Else generate new number and save to csv.
     }
 
@@ -307,7 +309,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     {
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(frame, 
-            "JourneysCostCalc by Mark Gregory\n" + "Version: 0.4, 2023-10-23",
+            "JourneysCostCalc by Mark Gregory\n" + "Version: 0.4, 2023-11-25",
             "About JourneysCostCalc", 
             JOptionPane.INFORMATION_MESSAGE);
     }

@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=UserInterface
-comment0.text=\r\n\ UserInterface\ is\ the\ main\ class\ of\ the\ Fuel\ Cost\ Calculator\ application.\ It\ builds\ and\r\n\ displays\ the\ application\ GUI\ and\ initialises\ all\ other\ components.\r\n\ \r\n\ To\ start\ the\ application,\ create\ an\ object\ of\ this\ class.\r\n\ \r\n\ showAbout\ method\ &\ menu\ shortcuts\ based\ on\ ImageViewer\ class\ from\ Michael\ K\u00F6lling\ and\r\n\ David\ J.\ Barnes.\ \r\n\ \r\n\ @author\ Mark\ Gregory.\r\n\ @version\ 0.2,\ 2023-06-07\ -\ Added\ litres\ to\ display.\r\n\ @version\ 0.3,\ 2023-07-24\ -\ Removed\ lables\ for\ load/save\ buttons.\r\n\ @version\ 0.4,\ 2023-11-18\ -\ Adding\ save/load\ functionality\ for\ 'trips'.\r\n
+comment0.text=\r\n\ UserInterface\ is\ the\ main\ class\ of\ the\ Fuel\ Cost\ Calculator\ application.\ It\ builds\ and\r\n\ displays\ the\ application\ GUI\ and\ initialises\ all\ other\ components.\r\n\ \r\n\ To\ start\ the\ application,\ create\ an\ object\ of\ this\ class.\r\n\ \r\n\ showAbout\ method\ &\ menu\ shortcuts\ based\ on\ ImageViewer\ class\ from\ Michael\ K\u00F6lling\ and\r\n\ David\ J.\ Barnes.\ \r\n\ \r\n\ @author\ Mark\ Gregory.\r\n\ @version\ 0.2,\ 2023-06-07\ -\ Added\ litres\ to\ display.\r\n\ @version\ 0.3,\ 2023-07-24\ -\ Removed\ lables\ for\ load/save\ buttons.\r\n\ @version\ 0.4,\ 2023-11-25\ -\ Adding\ save/load\ functionality\ for\ 'trips'.\r\n
 comment1.params=
 comment1.target=UserInterface()
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ UserInterface\r\n
