@@ -15,7 +15,8 @@ import java.text.DecimalFormat;
  * @author Mark Gregory.
  * @version 0.2, 2023-06-07 - Added litres to display.
  * @version 0.3, 2023-07-24 - Removed lables for load/save buttons.
- * @version 0.4, 2023-11-25 - Adding save/load functionality for 'trips'.
+ * @version 0.4, 2024-01-02 - Adding save/load functionality for 'trips'.
+ *                          - Currently loads a journey if a valid number is in text field.
  */
 public class UserInterface //extends JFrame //implements ActionListener
 {
@@ -137,7 +138,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         changeFontAndAlign(journeyNumberText);
 
         // Button to save the current journey. TBC
-        saveJourneyButton = new JButton("Save Current Journey");
+        saveJourneyButton = new JButton("Save Current Journey as");
         changeFontAndAlign(saveJourneyButton);
         contentPane.add(saveJourneyButton);
         //Call saveJourney method.
@@ -173,7 +174,44 @@ public class UserInterface //extends JFrame //implements ActionListener
             //At this point currentTrips has been replaced with journey objects loaded from file.
         }
         // User selects journey by number....
+        // If journeyNumberText contains a number load that journey's details?
+        String journeyNo = journeyNumberText.getText();
+        if(journeyNumberText.getText() != ""){
+            System.out.println("Journey Number in text box is: " + journeyNo);
+            // Check below for non-number format....
+            int journeyNoInt = Integer.parseInt(journeyNo);
+            // Search through currentTrips for Trip with matching journeyNo
+            // Call the seachTrips method here, which either returns null or an journey
+            // object which we then use to populate relevant textfields....?
+            Journey foundJourney = currentTrips.searchTrips(journeyNoInt);
+            System.out.println(foundJourney);
+            if(foundJourney == null ){
+                System.out.println("Journey not found.");
+            } else {
+                // If current MPG text boxes etc have data check if ok to clear?
+                // Get miles traveled, mpg, ppl (and journey name? where to display?)
+                // and update relevant text fields....
+                
+                // Get fcc object within journey object then convert each double to String, then
+                // update each text field?
+                FuelCostCalculator fcc = foundJourney.getFcc();
+                String milesTraveled = Double.toString(fcc.getMilesTravelled());
+                String ppl = Double.toString(fcc.getPencePerLitre());
+                String mpg = Double.toString(fcc.getCurrentMpg());
+                // Clear Total cost and litres used boxes, or auto run calc after loading journey?
+                milesTraveledText.setText(milesTraveled);
+                pencePerLitreText.setText(ppl);
+                currentMpgText.setText(mpg);
+                                             
+                // Have a msg confirming journey loaded?
+            }
+            
+
+        } if (journeyNumberText.getText().equals("")) {
+            System.out.println("Load Journey Box is empty.");
+        }
         // If current MPG text boxes etc have data check if ok to clear?
+
         // Load stored data into fields so calc can be run (or just automatically run calc?)
     }
 
@@ -182,9 +220,10 @@ public class UserInterface //extends JFrame //implements ActionListener
      */
     private void saveJourney()
     {
-        // Check journey with same number does not alread excist? If it does ask ok to overwrite?
+        // Check if a number is in the "Save Current Jouney as" JTextField...
+        // Check journey with same number does not alread exist? If it does ask ok to overwrite?
         // Is current data in fields valid? Currently only checked on 'calculate' call...
-        // Else generate new number and save to csv.
+        // Else generate new number, ask for text name and save to csv.
     }
 
     /**
@@ -309,7 +348,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     {
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(frame, 
-            "JourneysCostCalc by Mark Gregory\n" + "Version: 0.4, 2023-11-25",
+            "JourneysCostCalc by Mark Gregory\n" + "Version: 0.4, 2023-12-29",
             "About JourneysCostCalc", 
             JOptionPane.INFORMATION_MESSAGE);
     }

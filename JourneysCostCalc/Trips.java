@@ -7,7 +7,7 @@ import java.io.*;
  * retrieved or modified at a later date storing the data as a csv file.
  *
  * @author Mark Gregory
- * @version 2023-11-18
+ * @version 2023-12-27 - Adding search method...
  */
 public class Trips
 {
@@ -95,6 +95,29 @@ public class Trips
 
     }
 
+    /**
+     * Searches the current Trips object for a particular journey by number, then returns
+     * the particular Journey object if found.
+     */
+    public Journey searchTrips(int journeyNo)
+    {
+        //Search the passed in Trips object for a journey with a matching journeyNo & return it.
+        boolean found = false;
+        Iterator<Journey> jy = journeys.iterator();
+        while(!found && jy.hasNext()){
+            Journey j = jy.next();
+            if(j.getJourneyNumber() == journeyNo){
+                found = true;
+                return j;
+            }
+        }
+        if(found){
+            System.out.println("The journeyNo found is " + journeyNo);
+        }
+        return null;
+    }
+       
+    
     /** 
      * Prints the whole collection of journeys.
      *
