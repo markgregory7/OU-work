@@ -17,6 +17,8 @@ import java.text.DecimalFormat;
  * @version 0.3, 2023-07-24 - Removed lables for load/save buttons.
  * @version 0.4, 2024-01-02 - Adding save/load functionality for 'trips'.
  *                          - Currently loads a journey if a valid number is in text field.
+ * @version 0.5, 2024-01-06 - Adding save function, plus journey name details to UI.
+ * 
  */
 public class UserInterface //extends JFrame //implements ActionListener
 {
@@ -29,7 +31,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     //private JLabel journeyNumberLabel;
     private JTextField journeyNumberText;
 
-    //private JLabel journeyNameLabel;
+    private JLabel journeyNameLabel;
     private JTextField journeyNameText;
 
     private JLabel milesTraveledLabel;      
@@ -52,6 +54,7 @@ public class UserInterface //extends JFrame //implements ActionListener
 
     private JLabel litresUsedLabel;
     private JTextField litresUsedText;
+    
 
     /**
      * Constructor for objects of class UserInterface
@@ -137,7 +140,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         contentPane.add(journeyNumberText);
         changeFontAndAlign(journeyNumberText);
 
-        // Button to save the current journey. TBC
+        // Button to save the current journey. TBC (also will display currently loaded journey name).
         saveJourneyButton = new JButton("Save Current Journey as");
         changeFontAndAlign(saveJourneyButton);
         contentPane.add(saveJourneyButton);
@@ -162,6 +165,10 @@ public class UserInterface //extends JFrame //implements ActionListener
      */
     private void loadJourney()
     {
+        // Clear total cost and litres used text fields in case method previously run.
+        totalCostFuelText.setText("");
+        litresUsedText.setText("");
+        
         // Has csv file been already read?
         // Check currentTrips is null? If so try to load a file?
         if(currentTrips == null){
@@ -198,12 +205,13 @@ public class UserInterface //extends JFrame //implements ActionListener
                 String milesTraveled = Double.toString(fcc.getMilesTravelled());
                 String ppl = Double.toString(fcc.getPencePerLitre());
                 String mpg = Double.toString(fcc.getCurrentMpg());
-                // Clear Total cost and litres used boxes, or auto run calc after loading journey?
+                // Load stored data into fields so calc can be run.
                 milesTraveledText.setText(milesTraveled);
                 pencePerLitreText.setText(ppl);
                 currentMpgText.setText(mpg);
-                                             
+                journeyNameText.setText(foundJourney.getJourneyName());                             
                 // Have a msg confirming journey loaded?
+                // Automatically run calc?
             }
             
 
@@ -211,8 +219,6 @@ public class UserInterface //extends JFrame //implements ActionListener
             System.out.println("Load Journey Box is empty.");
         }
         // If current MPG text boxes etc have data check if ok to clear?
-
-        // Load stored data into fields so calc can be run (or just automatically run calc?)
     }
 
     /**
@@ -220,10 +226,14 @@ public class UserInterface //extends JFrame //implements ActionListener
      */
     private void saveJourney()
     {
-        // Check if a number is in the "Save Current Jouney as" JTextField...
-        // Check journey with same number does not alread exist? If it does ask ok to overwrite?
-        // Is current data in fields valid? Currently only checked on 'calculate' call...
-        // Else generate new number, ask for text name and save to csv.
+        // Check if a number is in the "Save Current Jouney as" JTextField.
+        if(journeyNumberText.getText().equals("")){
+            // Call load journey then by default create a number on the last number ++?
+        }
+        // Prompt for a journey name as a String.
+        // Check journey with same name does not alread exist. If it does ask ok to overwrite?
+        // Is current data in fields valid? Currently only checked on 'calculate' call.
+        // Sve to csv.
     }
 
     /**
