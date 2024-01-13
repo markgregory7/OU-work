@@ -1,13 +1,12 @@
 import java.util.*;
 import java.io.*;
-//import java.util.Date; // Needed?
 
 /**
  * This class enables Journey objects to be stored as 'trips' and then
  * retrieved or modified at a later date storing the data as a csv file.
  *
  * @author Mark Gregory
- * @version 2023-12-27 - Adding search method...
+ * @version 2024-01-13
  */
 public class Trips
 {
@@ -99,7 +98,7 @@ public class Trips
      * Searches the current Trips object for a particular journey by number, then returns
      * the particular Journey object if found.
      */
-    public Journey searchTrips(int journeyNo)
+    public Journey searchTripsForJourneyNo(int journeyNo)
     {
         //Search the passed in Trips object for a journey with a matching journeyNo & return it.
         boolean found = false;
@@ -116,7 +115,26 @@ public class Trips
         }
         return null;
     }
-       
+    
+    /**
+     * Searches the current Trips object for highest journeyNo then returns
+     * it.
+     */
+    public int searchTripsHighestJourneyNo()
+    {
+        int highestJourneyNo = 0;
+        Iterator<Journey> jy = journeys.iterator();
+        while(jy.hasNext()){
+            Journey j = jy.next();
+            int currentJourneyNo = j.getJourneyNumber();
+            if(currentJourneyNo > highestJourneyNo){
+                highestJourneyNo = currentJourneyNo;
+            }
+        }
+        return highestJourneyNo;
+    }
+    
+        
     
     /** 
      * Prints the whole collection of journeys.
@@ -124,10 +142,6 @@ public class Trips
      */
     public void printJourneys()
     {
-        //for(Journey jny : journeys){
-        //    System.out.println(jny);         
-        //}
-        //System.out.println("");
         System.out.println(journeys);
     }
     

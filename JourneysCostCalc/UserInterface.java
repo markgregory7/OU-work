@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.text.DecimalFormat;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 /**
  * UserInterface is the main class of the Fuel Cost Calculator application. It builds and
@@ -17,7 +19,7 @@ import java.text.DecimalFormat;
  * @version 0.3, 2023-07-24 - Removed lables for load/save buttons.
  * @version 0.4, 2024-01-02 - Adding save/load functionality for 'trips'.
  *                          - Currently loads a journey if a valid number is in text field.
- * @version 0.5, 2024-01-06 - Adding save function, plus journey name details to UI.
+ * @version 0.5, 2024-01-13 - Adding save function, plus journey name details to UI.
  * 
  */
 public class UserInterface //extends JFrame //implements ActionListener
@@ -190,7 +192,7 @@ public class UserInterface //extends JFrame //implements ActionListener
             // Search through currentTrips for Trip with matching journeyNo
             // Call the seachTrips method here, which either returns null or an journey
             // object which we then use to populate relevant textfields....?
-            Journey foundJourney = currentTrips.searchTrips(journeyNoInt);
+            Journey foundJourney = currentTrips.searchTripsForJourneyNo(journeyNoInt);
             System.out.println(foundJourney);
             if(foundJourney == null ){
                 System.out.println("Journey not found.");
@@ -226,9 +228,16 @@ public class UserInterface //extends JFrame //implements ActionListener
      */
     private void saveJourney()
     {
-        // Check if a number is in the "Save Current Jouney as" JTextField.
+        // Check if a number is in the "Save Current Journey as" JTextField.
         if(journeyNumberText.getText().equals("")){
             // Call load journey then by default create a number on the last number ++?
+            // though that would update text fields as the loadJourney method currently functions...
+            
+            // Iterate through currentTrips and find highest journeyNumber.
+            // Pass info to Trips to check?
+            //Journey foundJourney = currentTrips.searchTrips(journeyNoInt);
+            int highestJourneyNo = currentTrips.searchTripsHighestJourneyNo();
+            
         }
         // Prompt for a journey name as a String.
         // Check journey with same name does not alread exist. If it does ask ok to overwrite?
