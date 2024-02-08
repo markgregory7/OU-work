@@ -6,7 +6,7 @@ import java.io.*;
  * retrieved or modified at a later date storing the data as a csv file.
  *
  * @author Mark Gregory
- * @version 2024-01-13
+ * @version 2024-01-14
  */
 public class Trips
 {
@@ -133,8 +133,6 @@ public class Trips
         }
         return highestJourneyNo;
     }
-    
-        
     
     /** 
      * Prints the whole collection of journeys.

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * UserInterface is the main class of the Fuel Cost Calculator application. It builds and
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  * @version 0.3, 2023-07-24 - Removed lables for load/save buttons.
  * @version 0.4, 2024-01-02 - Adding save/load functionality for 'trips'.
  *                          - Currently loads a journey if a valid number is in text field.
- * @version 0.5, 2024-01-13 - Adding save function, plus journey name details to UI.
+ * @version 0.5, 2024-02-05 - Adding save function, plus journey name details to UI.
  * 
  */
 public class UserInterface //extends JFrame //implements ActionListener
@@ -56,7 +57,6 @@ public class UserInterface //extends JFrame //implements ActionListener
 
     private JLabel litresUsedLabel;
     private JTextField litresUsedText;
-    
 
     /**
      * Constructor for objects of class UserInterface
@@ -146,6 +146,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         saveJourneyButton = new JButton("Save Current Journey as");
         changeFontAndAlign(saveJourneyButton);
         contentPane.add(saveJourneyButton);
+        saveJourneyButton.addActionListener(e -> saveJourney());
         //Call saveJourney method.
         //totalCostFuelButton.addActionListener(e -> calculate());
 
@@ -170,7 +171,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         // Clear total cost and litres used text fields in case method previously run.
         totalCostFuelText.setText("");
         litresUsedText.setText("");
-        
+
         // Has csv file been already read?
         // Check currentTrips is null? If so try to load a file?
         if(currentTrips == null){
@@ -185,7 +186,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         // User selects journey by number....
         // If journeyNumberText contains a number load that journey's details?
         String journeyNo = journeyNumberText.getText();
-        if(journeyNumberText.getText() != ""){
+        if(!journeyNumberText.getText().equals("")){
             System.out.println("Journey Number in text box is: " + journeyNo);
             // Check below for non-number format....
             int journeyNoInt = Integer.parseInt(journeyNo);
@@ -200,7 +201,7 @@ public class UserInterface //extends JFrame //implements ActionListener
                 // If current MPG text boxes etc have data check if ok to clear?
                 // Get miles traveled, mpg, ppl (and journey name? where to display?)
                 // and update relevant text fields....
-                
+
                 // Get fcc object within journey object then convert each double to String, then
                 // update each text field?
                 FuelCostCalculator fcc = foundJourney.getFcc();
@@ -215,7 +216,6 @@ public class UserInterface //extends JFrame //implements ActionListener
                 // Have a msg confirming journey loaded?
                 // Automatically run calc?
             }
-            
 
         } if (journeyNumberText.getText().equals("")) {
             System.out.println("Load Journey Box is empty.");
@@ -229,20 +229,51 @@ public class UserInterface //extends JFrame //implements ActionListener
     private void saveJourney()
     {
         // Check if a number is in the "Save Current Journey as" JTextField.
-        if(journeyNumberText.getText().equals("")){
+        if(!journeyNumberText.getText().equals("")){
+            // If there is a number, check if already in use?
+            String journeyNo = journeyNumberText.getText();
+            int journeyNoInt = Integer.parseInt(journeyNo);
+            Journey foundJourney = currentTrips.searchTripsForJourneyNo(journeyNoInt);
+            System.out.println(foundJourney);
+            // If so then is it ok to save over previous journey entry?
+            if(foundJourney != null){
+                // Put the below into a yes/no window?
+                // If no then go to another window offering latest availble journey number.
+                // Then confirm journey name to be used.                
+
+                // Show dialog window here which asks whether to overwrite yes/no.
+                // showConfirmDialog
+                // message = "Do you wish to save over Journey " + journeyNo + "? y/n?";
+                // QUESTION_MESSAGE
+                // YES_NO_CANCEL_OPTION (yes = saves over journey & prompts for new name?
+                //                       no = uses new journey no and prompts for name
+                //                       cancel = returns from save method)
+                // YES_OPTION
+                // NO_OPTION
+                // CANCEL_OPTION
+                // Example code below:
+                //JOptionPane.showInternalConfirmDialog(frame,
+                //"please choose one", "information",
+                //JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            }
             // Call load journey then by default create a number on the last number ++?
-            // though that would update text fields as the loadJourney method currently functions...
-            
+            // though that would update text fields as the loadJourney method0
+            // currently functions...
+
             // Iterate through currentTrips and find highest journeyNumber.
-            // Pass info to Trips to check?
-            //Journey foundJourney = currentTrips.searchTrips(journeyNoInt);
             int highestJourneyNo = currentTrips.searchTripsHighestJourneyNo();
-            
+            System.out.println("highestJourneyNo = " + highestJourneyNo);
+
+        }else{
+            // Find current highest journey number and add 1 to it.
+            // Prompt for a journey name as a String.
+            // Check journey with same name does not alread exist. If it does ask ok to overwrite?
+            // Is current data in fields valid? Currently only checked on 'calculate' call.
+            // Save to csv.
+            int highestJourneyNo = currentTrips.searchTripsHighestJourneyNo();
+            System.out.println("highestJourneyNo = " + highestJourneyNo);
         }
-        // Prompt for a journey name as a String.
-        // Check journey with same name does not alread exist. If it does ask ok to overwrite?
-        // Is current data in fields valid? Currently only checked on 'calculate' call.
-        // Sve to csv.
+
     }
 
     /**
@@ -367,7 +398,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     {
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(frame, 
-            "JourneysCostCalc by Mark Gregory\n" + "Version: 0.4, 2023-12-29",
+            "JourneysCostCalc by Mark Gregory\n" + "Version: 0.5, 2024-01-21",
             "About JourneysCostCalc", 
             JOptionPane.INFORMATION_MESSAGE);
     }
