@@ -20,7 +20,7 @@ import java.util.Scanner;
  * @version 0.3, 2023-07-24 - Removed lables for load/save buttons.
  * @version 0.4, 2024-01-02 - Adding save/load functionality for 'trips'.
  *                          - Currently loads a journey if a valid number is in text field.
- * @version 0.5, 2024-02-05 - Adding save function, plus journey name details to UI.
+ * @version 0.5, 2024-02-10 - Adding save function, plus journey name details to UI.
  * 
  */
 public class UserInterface //extends JFrame //implements ActionListener
@@ -57,6 +57,8 @@ public class UserInterface //extends JFrame //implements ActionListener
 
     private JLabel litresUsedLabel;
     private JTextField litresUsedText;
+
+    private int journeyNoInt;
 
     /**
      * Constructor for objects of class UserInterface
@@ -189,7 +191,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         if(!journeyNumberText.getText().equals("")){
             System.out.println("Journey Number in text box is: " + journeyNo);
             // Check below for non-number format....
-            int journeyNoInt = Integer.parseInt(journeyNo);
+            journeyNoInt = Integer.parseInt(journeyNo);
             // Search through currentTrips for Trip with matching journeyNo
             // Call the seachTrips method here, which either returns null or an journey
             // object which we then use to populate relevant textfields....?
@@ -237,29 +239,24 @@ public class UserInterface //extends JFrame //implements ActionListener
             System.out.println(foundJourney);
             // If so then is it ok to save over previous journey entry?
             if(foundJourney != null){
-                // Put the below into a yes/no window?
+                // Show dialog window here which asks whether to overwrite yes/no.
+                int choice = yesNoCancelResult();
+                // YES_OPTION = 0
+                // NO_OPTION = 1
+                // CANCEL_OPTION = 2
+                
                 // If no then go to another window offering latest availble journey number.
                 // Then confirm journey name to be used.                
-
-                // Show dialog window here which asks whether to overwrite yes/no.
-                // showConfirmDialog
-                // message = "Do you wish to save over Journey " + journeyNo + "? y/n?";
-                // QUESTION_MESSAGE
+                
                 // YES_NO_CANCEL_OPTION (yes = saves over journey & prompts for new name?
                 //                       no = uses new journey no and prompts for name
                 //                       cancel = returns from save method)
-                // YES_OPTION
-                // NO_OPTION
-                // CANCEL_OPTION
-                // Example code below:
-                //JOptionPane.showInternalConfirmDialog(frame,
-                //"please choose one", "information",
-                //JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                
             }
             // Call load journey then by default create a number on the last number ++?
             // though that would update text fields as the loadJourney method0
             // currently functions...
-
+            
             // Iterate through currentTrips and find highest journeyNumber.
             int highestJourneyNo = currentTrips.searchTripsHighestJourneyNo();
             System.out.println("highestJourneyNo = " + highestJourneyNo);
@@ -328,6 +325,23 @@ public class UserInterface //extends JFrame //implements ActionListener
             JOptionPane.showMessageDialog(null, msg, msgtyp, JOptionPane.ERROR_MESSAGE);
             return;
         }
+    }
+
+    /**
+     * Creates a confirmation window and returns an integer based on user selection.
+     * YES_OPTION = 0
+     * NO_OPTION = 1
+     * CANCEL_OPTION = 2
+     */
+    private int yesNoCancelResult()
+    {
+        UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
+        // int choice = JOptionPane.showInternalConfirmDialog(frame,
+        int choice = JOptionPane.showConfirmDialog(frame,
+                "Do you wish to save over Journey " + journeyNoInt + " ?", "Save Journey Confirmation",
+                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        System.out.println("choice = " + choice);
+        return choice;
     }
 
     // Are the overloading methods below done better with a lamda? (if possible?)
