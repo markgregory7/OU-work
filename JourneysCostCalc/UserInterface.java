@@ -20,7 +20,7 @@ import java.util.Scanner;
  * @version 0.3, 2023-07-24 - Removed lables for load/save buttons.
  * @version 0.4, 2024-01-02 - Adding save/load functionality for 'trips'.
  *                          - Currently loads a journey if a valid number is in text field.
- * @version 0.5, 2024-02-10 - Adding save function, plus journey name details to UI.
+ * @version 0.5, 2024-02-13 - Adding save function, plus journey name details to UI.
  * 
  */
 public class UserInterface //extends JFrame //implements ActionListener
@@ -240,12 +240,28 @@ public class UserInterface //extends JFrame //implements ActionListener
             // If so then is it ok to save over previous journey entry?
             if(foundJourney != null){
                 // Show dialog window here which asks whether to overwrite yes/no.
-                int choice = yesNoCancelResult();
+                // Create a String of "Do you wish to save over Journey " + journeyNoInt + " ?"
+                String saveOverJourneyQuestion = "Do you wish to save over Journey " + journeyNoInt + " ?";
+                int choice = yesNoCancelResult(saveOverJourneyQuestion);
                 // YES_OPTION = 0
                 // NO_OPTION = 1
                 // CANCEL_OPTION = 2
+                if(choice == 0){
+                    // Ask whether to update journey name.
+                    
+                    // Modify collection.
+                    
+                } else if(choice == 1){
+                    // If no then go to another window offering latest availble journey number
+                    // and asking for a new journey name.
+                    
+                } else if(choice == 2){
+                    // Add a save cancelled window?
+                    return;
+                } else{
+                    
+                }
                 
-                // If no then go to another window offering latest availble journey number.
                 // Then confirm journey name to be used.                
                 
                 // YES_NO_CANCEL_OPTION (yes = saves over journey & prompts for new name?
@@ -290,7 +306,7 @@ public class UserInterface //extends JFrame //implements ActionListener
             //What if mpg is 0?
             if(currentMpgText.getText().equals("0") ||
             currentMpgText.getText().equals("")){
-                JOptionPane.showMessageDialog(null, "MPG cannot be nothing.",
+                JOptionPane.showMessageDialog(null, "MPG cannot be zero.",
                     "Alert", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -329,17 +345,23 @@ public class UserInterface //extends JFrame //implements ActionListener
 
     /**
      * Creates a confirmation window and returns an integer based on user selection.
+     *
+     *@String   Question that is to be displayed.
+     * 
      * YES_OPTION = 0
      * NO_OPTION = 1
      * CANCEL_OPTION = 2
      */
-    private int yesNoCancelResult()
+    private int yesNoCancelResult(String question)
     {
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
-        // int choice = JOptionPane.showInternalConfirmDialog(frame,
+        // int choice = JOptionPane.showConfirmDialog(frame,
+                // "Do you wish to save over Journey " + journeyNoInt + " ?", "Save Journey Confirmation",
+                // JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
         int choice = JOptionPane.showConfirmDialog(frame,
-                "Do you wish to save over Journey " + journeyNoInt + " ?", "Save Journey Confirmation",
+                question, "Question Confirmation",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                
         System.out.println("choice = " + choice);
         return choice;
     }
@@ -412,7 +434,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     {
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(frame, 
-            "JourneysCostCalc by Mark Gregory\n" + "Version: 0.5, 2024-01-21",
+            "JourneysCostCalc by Mark Gregory\n" + "Version: 0.5, 2024-02-13",
             "About JourneysCostCalc", 
             JOptionPane.INFORMATION_MESSAGE);
     }

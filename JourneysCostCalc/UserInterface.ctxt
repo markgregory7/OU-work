@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=UserInterface
-comment0.text=\r\n\ UserInterface\ is\ the\ main\ class\ of\ the\ Fuel\ Cost\ Calculator\ application.\ It\ builds\ and\r\n\ displays\ the\ application\ GUI\ and\ initialises\ all\ other\ components.\r\n\ \r\n\ To\ start\ the\ application,\ create\ an\ object\ of\ this\ class.\r\n\ \r\n\ showAbout\ method\ &\ menu\ shortcuts\ based\ on\ ImageViewer\ class\ from\ Michael\ K\u00F6lling\ and\r\n\ David\ J.\ Barnes.\ \r\n\ \r\n\ @author\ Mark\ Gregory.\r\n\ @version\ 0.2,\ 2023-06-07\ -\ Added\ litres\ to\ display.\r\n\ @version\ 0.3,\ 2023-07-24\ -\ Removed\ lables\ for\ load/save\ buttons.\r\n\ @version\ 0.4,\ 2024-01-02\ -\ Adding\ save/load\ functionality\ for\ 'trips'.\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\ Currently\ loads\ a\ journey\ if\ a\ valid\ number\ is\ in\ text\ field.\r\n\ @version\ 0.5,\ 2024-02-10\ -\ Adding\ save\ function,\ plus\ journey\ name\ details\ to\ UI.\r\n\ \r\n
+comment0.text=\r\n\ UserInterface\ is\ the\ main\ class\ of\ the\ Fuel\ Cost\ Calculator\ application.\ It\ builds\ and\r\n\ displays\ the\ application\ GUI\ and\ initialises\ all\ other\ components.\r\n\ \r\n\ To\ start\ the\ application,\ create\ an\ object\ of\ this\ class.\r\n\ \r\n\ showAbout\ method\ &\ menu\ shortcuts\ based\ on\ ImageViewer\ class\ from\ Michael\ K\u00F6lling\ and\r\n\ David\ J.\ Barnes.\ \r\n\ \r\n\ @author\ Mark\ Gregory.\r\n\ @version\ 0.2,\ 2023-06-07\ -\ Added\ litres\ to\ display.\r\n\ @version\ 0.3,\ 2023-07-24\ -\ Removed\ lables\ for\ load/save\ buttons.\r\n\ @version\ 0.4,\ 2024-01-02\ -\ Adding\ save/load\ functionality\ for\ 'trips'.\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\ Currently\ loads\ a\ journey\ if\ a\ valid\ number\ is\ in\ text\ field.\r\n\ @version\ 0.5,\ 2024-02-13\ -\ Adding\ save\ function,\ plus\ journey\ name\ details\ to\ UI.\r\n\ \r\n
 comment1.params=
 comment1.target=UserInterface()
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ UserInterface\r\n
@@ -34,9 +34,9 @@ comment4.text=\r\n\ Save\ current\ Journey.\r\n
 comment5.params=
 comment5.target=void\ calculate()
 comment5.text=\r\n\ Calculates\ the\ journey\ cost\ by\ creating\ a\ FuelCostCalculator\ object\ from\ the\ UI's\ JTextFields\r\n\ values\ (converting\ them\ to\ Doubles)\ and\ then\ calling\ its\ calcCost\ method.\r\n\ \r\n\ @throws\ NumberFormatException\ If\ any\ of\ the\ text\ fields\ do\ not\ contain\ a\ number\ that\ can\ be\r\n\ \ \ \ \ \ \ \ \ \ converted\ to\ a\ Double\ object.\r\n
-comment6.params=
-comment6.target=int\ yesNoCancelResult()
-comment6.text=\r\n\ Creates\ a\ confirmation\ window\ and\ returns\ an\ integer\ based\ on\ user\ selection.\r\n\ YES_OPTION\ \=\ 0\r\n\ NO_OPTION\ \=\ 1\r\n\ CANCEL_OPTION\ \=\ 2\r\n
+comment6.params=question
+comment6.target=int\ yesNoCancelResult(java.lang.String)
+comment6.text=\r\n\ Creates\ a\ confirmation\ window\ and\ returns\ an\ integer\ based\ on\ user\ selection.\r\n\r\n@String\ \ \ Question\ that\ is\ to\ be\ displayed.\r\n\ \r\n\ YES_OPTION\ \=\ 0\r\n\ NO_OPTION\ \=\ 1\r\n\ CANCEL_OPTION\ \=\ 2\r\n
 comment7.params=label
 comment7.target=void\ changeFontAndAlign(javax.swing.JLabel)
 comment7.text=\r\n\ Updates\ the\ font,\ size\ and\ horizontal\ alignment\ for\ a\ JLabel.\r\n\ @param\ label\ The\ JLabel\ to\ be\ modified.\r\n
