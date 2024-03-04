@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Date;
 
 /**
  * UserInterface is the main class of the Fuel Cost Calculator application. It builds and
@@ -20,7 +21,7 @@ import java.util.Scanner;
  * @version 0.3, 2023-07-24 - Removed lables for load/save buttons.
  * @version 0.4, 2024-01-02 - Adding save/load functionality for 'trips'.
  *                          - Currently loads a journey if a valid number is in text field.
- * @version 0.5, 2024-02-13 - Adding save function, plus journey name details to UI.
+ * @version 0.5, 2024-03-03 - Adding save function, plus journey name details to UI.
  * 
  */
 public class UserInterface //extends JFrame //implements ActionListener
@@ -136,10 +137,6 @@ public class UserInterface //extends JFrame //implements ActionListener
         loadJourneyButton.addActionListener(e -> loadJourney());
         //totalCostFuelButton.addActionListener(e -> calculate());
 
-        //journeyNumberLabel = new JLabel("Journey Number");
-        //changeFontAndAlign(journeyNumberLabel);
-        //contentPane.add(journeyNumberLabel);
-
         journeyNumberText = new JTextField();
         contentPane.add(journeyNumberText);
         changeFontAndAlign(journeyNumberText);
@@ -151,10 +148,6 @@ public class UserInterface //extends JFrame //implements ActionListener
         saveJourneyButton.addActionListener(e -> saveJourney());
         //Call saveJourney method.
         //totalCostFuelButton.addActionListener(e -> calculate());
-
-        //journeyNameLabel = new JLabel("Journey Name");
-        //changeFontAndAlign(journeyNameLabel);
-        //contentPane.add(journeyNameLabel);
 
         journeyNameText = new JTextField();
         contentPane.add(journeyNameText);
@@ -246,11 +239,24 @@ public class UserInterface //extends JFrame //implements ActionListener
                 // YES_OPTION = 0
                 // NO_OPTION = 1
                 // CANCEL_OPTION = 2
+                System.out.println("Returned from yesNoCancel call...");
+                System.out.println("Choice = " + choice);
                 if(choice == 0){
                     // Ask whether to update journey name.
-                    
+                    String updateJourneyNameQuestion = "Do you wish to keep the Journey name as " + foundJourney.getJourneyName() + "?";
                     // Modify collection.
-                    
+                    int decision = yesNoCancelResult(updateJourneyNameQuestion);
+                    if(decision == 0){
+                        // Update current journey within collection with updated MPG etc then update csv file?
+                        // journeyNumber, journeyName remain the same - update date and journeyFcc with new data.
+                        Date currentDate = new Date();
+                        foundJourney.setDate(currentDate);
+                        FuelCostCalculator fcc = foundJourney.getFcc();
+                        String milesTraveled = Double.toString(fcc.getMilesTravelled());
+                        String ppl = Double.toString(fcc.getPencePerLitre());
+                        String mpg = Double.toString(fcc.getCurrentMpg());
+                        
+                    }
                 } else if(choice == 1){
                     // If no then go to another window offering latest availble journey number
                     // and asking for a new journey name.

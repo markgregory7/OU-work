@@ -6,7 +6,8 @@ import java.util.Date;
  * and FuelCostCalculator object.
  *
  * @author Mark Gregory
- * @version 2023-10-15 - Modified so journeyNumber is no longer static, was causing issues reading from csv file in Trips.
+ * @version 2024-02-25 -  Added setters so Journey attributes can be updated after
+ * creation.
  */
 public class Journey
 {
@@ -50,11 +51,27 @@ public class Journey
     }
     
     /**
+     * Updates journeyNumber.
+     */
+    public void setJourneyNumber(int journeyNumber)
+    {
+        this.journeyNumber = journeyNumber;
+    }
+    
+    /**
      * Returns journeyName.
      */
     public String getJourneyName()
     {
         return journeyName;
+    }
+    
+    /**
+     * Updates journeyName.
+     */
+    public void setJourneyName(String journeyName)
+    {
+        this.journeyName = journeyName;
     }
     
     /**
@@ -66,11 +83,27 @@ public class Journey
     }
     
     /**
+     * Updates date.
+     */
+    public void setDate(Date date)
+    {
+        this.date = date;  
+    }
+    
+    /**
      * Returns the FuelCostCalculator object journeyFcc.
      */
     public FuelCostCalculator getFcc()
     {
         return journeyFcc;
+    }
+    
+    /**
+     * Updates journeyFcc.
+     */
+    public void setFcc(FuelCostCalculator journeyFcc)
+    {
+        this.journeyFcc = journeyFcc;
     }
     
     /**
