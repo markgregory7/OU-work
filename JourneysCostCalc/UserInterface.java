@@ -21,7 +21,7 @@ import java.util.Date;
  * @version 0.3, 2023-07-24 - Removed lables for load/save buttons.
  * @version 0.4, 2024-01-02 - Adding save/load functionality for 'trips'.
  *                          - Currently loads a journey if a valid number is in text field.
- * @version 0.5, 2024-03-03 - Adding save function, plus journey name details to UI.
+ * @version 0.5, 2024-03-25- Adding save function, plus journey name details to UI.
  * 
  */
 public class UserInterface //extends JFrame //implements ActionListener
@@ -240,7 +240,7 @@ public class UserInterface //extends JFrame //implements ActionListener
                 // NO_OPTION = 1
                 // CANCEL_OPTION = 2
                 System.out.println("Returned from yesNoCancel call...");
-                System.out.println("Choice = " + choice);
+                System.out.println("choice = " + choice);
                 if(choice == 0){
                     // Ask whether to update journey name.
                     String updateJourneyNameQuestion = "Do you wish to keep the Journey name as " + foundJourney.getJourneyName() + "?";
@@ -250,11 +250,26 @@ public class UserInterface //extends JFrame //implements ActionListener
                         // Update current journey within collection with updated MPG etc then update csv file?
                         // journeyNumber, journeyName remain the same - update date and journeyFcc with new data.
                         Date currentDate = new Date();
-                        foundJourney.setDate(currentDate);
-                        FuelCostCalculator fcc = foundJourney.getFcc();
-                        String milesTraveled = Double.toString(fcc.getMilesTravelled());
-                        String ppl = Double.toString(fcc.getPencePerLitre());
-                        String mpg = Double.toString(fcc.getCurrentMpg());
+                        System.out.println("currentDate = " + currentDate);
+                        foundJourney.setDate(currentDate); // Updates journey's date to current system date & time
+                        // Now to get data from GUI text boxes and update FFC object.
+                        // 1. get milesTravelled, pencePerLitre and currentMpg from GUI text fields
+                        double miles = 0.0;
+                        double mpg = 0.0;
+                        double ppl = 0.0;
+                        String milesTxt = milesTraveledText.getText();
+                        miles = Double.parseDouble(milesTxt);
+                        String mpgTxt = currentMpgText.getText();
+                        mpg = Double.parseDouble(mpgTxt);
+                        String pplTxt = pencePerLitreText.getText();
+                        ppl = Double.parseDouble(pplTxt);
+                        System.out.println("milesTxt = " + milesTxt);
+                        System.out.println("mpgTxt = " + mpgTxt);
+                        System.out.println("pplTxt = " + pplTxt);
+                        // Create a new fcc then 'set' it. miles, ppl, mpg
+                        FuelCostCalculator fccTransfer = new FuelCostCalculator(miles, ppl, mpg);
+                        // 2. set new FCC object to foundJourney.
+                        foundJourney.setFcc(fccTransfer);
                         
                     }
                 } else if(choice == 1){
