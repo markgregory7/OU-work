@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=TestDateCreation
+comment0.text=\r\n\ Creates\ a\ test\ example\ of\ a\ Date\ object\r\n\r\n\ @author\ Mark\ Gregory\r\n\ @version\ 2023-07-29\r\n
+comment1.params=
+comment1.target=TestDateCreation()
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ TestDateCreation\r\n
+comment2.params=
+comment2.target=void\ printDate()
+comment3.params=
+comment3.target=void\ dateCreatedWithString()
+numComments=4
