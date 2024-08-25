@@ -21,7 +21,7 @@ import java.util.Date;
  * @version 0.3, 2023-07-24 - Removed lables for load/save buttons.
  * @version 0.4, 2024-01-02 - Adding save/load functionality for 'trips'.
  *                          - Currently loads a journey if a valid number is in text field.
- * @version 0.5, 2024-06-22- Adding save function, plus journey name details to UI.
+ * @version 0.5, 2024-08-25- Adding save function, plus journey name details to UI.
  * 
  */
 public class UserInterface //extends JFrame //implements ActionListener
@@ -224,6 +224,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     private void saveJourney()
     {
         // Check if a number is in the "Save Current Journey as" JTextField.
+        // Place within Try/Catch for null journeys?
         if(!journeyNumberText.getText().equals("")){
             // If there is a number, check if already in use?
             String journeyNo = journeyNumberText.getText();
@@ -241,7 +242,8 @@ public class UserInterface //extends JFrame //implements ActionListener
                 // CANCEL_OPTION = 2
                 System.out.println("Returned from yesNoCancel call...");
                 System.out.println("choice = " + choice);
-                if(choice == 0){
+                //Save over choice chosen
+                if(choice == 0){ 
                     // Ask whether to update journey name.
                     String updateJourneyNameQuestion = "Do you wish to keep the Journey name as " + foundJourney.getJourneyName() + "?";
                     // Modify collection.
@@ -271,7 +273,11 @@ public class UserInterface //extends JFrame //implements ActionListener
                         FuelCostCalculator fccTransfer = new FuelCostCalculator(miles, ppl, mpg);
                         // 2. set new FCC object to foundJourney.
                         foundJourney.setFcc(fccTransfer);
-
+                        // 3. save foundJourney over previous by using JourneyNo...
+                        currentTrips.updateJourneyInTrips(foundJourney);
+                        // Update currentTrips here then save to CSV?
+                        // Create an update method in Trips?
+                        
                     }
                 } else if(choice == 1){ //New Journey Name chosen
                     // If no then go to another window offering latest availble journey number
@@ -284,7 +290,9 @@ public class UserInterface //extends JFrame //implements ActionListener
                     // Will need to validate entry....
                     String userInput = userInputWindow("New Journey number will be " +
                             newJourneyNo + ". Now please enter a new journey name.");
-                    System.out.println("User input is: " + userInput);        
+                    System.out.println("User input is: " + userInput);
+                    //New OK/Cancel result here...?
+                    
                 } else if(choice == 2){
                     // Add a save cancelled window?
                     return;

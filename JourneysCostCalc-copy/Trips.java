@@ -6,7 +6,7 @@ import java.io.*;
  * retrieved or modified at a later date storing the data as a csv file.
  *
  * @author Mark Gregory
- * @version 2024-01-14
+ * @version 2024-08-25
  */
 public class Trips
 {
@@ -25,13 +25,16 @@ public class Trips
 
     /** 
      * Creates a CSV file of the current collection of journeys and saves it to the
-     * local directory. Individual entities are stored as 6 Strings, plus "\n"
+     * local directory. CURRENTLY IT WILL SAVE OVER A FILE WITH THE SAME NAME WITHOUT WARNING.
+     * Individual entities are stored as 6 Strings, plus "\n"
      * 
      * @param filename The name of the file that it will be saved under. 
      * Use *.csv nomenclature.
      */
-    public void writeCSVFile(String filename)
+    //public void writeCSVFile(String filename)
+    public void writeCSVFile()
     {
+        String filename = "journeysTest2.csv";
         try(FileWriter writer = new FileWriter(filename)){
             for(Journey jny : journeys){
                 writer.write(Integer.toString(jny.getJourneyNumber())+",");
@@ -40,7 +43,7 @@ public class Trips
                 writer.write(String.valueOf(jny.getFcc().getMilesTravelled())+",");
                 writer.write(String.valueOf(jny.getFcc().getPencePerLitre())+",");
                 writer.write(String.valueOf(jny.getFcc().getCurrentMpg())+",");
-                writer.write("\n");
+                writer.write("\r\n");
             }
         }
         catch(IOException e){
@@ -61,7 +64,7 @@ public class Trips
     //public void readCSVFile(String filename)
     public void readCSVFile()
     {
-        String filename = "journeys.csv";
+        String filename = "journeysTest2.csv";
         try(Scanner scanner = new Scanner(new File(filename))){
             ArrayList<Journey> transferList = new ArrayList<Journey>();
             scanner.useDelimiter(",");
@@ -69,7 +72,7 @@ public class Trips
             while(scanner.hasNextLine()){
                 String currentLineText = scanner.nextLine();
                 String[] csvValueArray = currentLineText.split(",");
-                // csv data is stored as 6 Strings plus \n, then needs to be converted back...
+                // csv data is stored as 6 Strings plus \r\n, then needs to be converted back...
                 int journeyNo = Integer.parseInt(csvValueArray[0]);
                 String journeyName = csvValueArray[1];
                 Date date = new Date(csvValueArray[2]);
@@ -114,6 +117,30 @@ public class Trips
             System.out.println("The journeyNo found is " + journeyNo);
         }
         return null;
+    }
+    
+    /**
+     * Updates current Trips journey object using supplied journey's number. 
+     */
+    public void updateJourneyInTrips(Journey journey)
+    {
+        boolean found = false;
+        Iterator<Journey> jy = journeys.iterator();
+        while(!found && jy.hasNext()){
+            Journey j = jy.next();
+            if(j.getJourneyNumber() == journey.getJourneyNumber()){
+                found = true;
+                j = journey;
+                System.out.println("New journey data copied");
+            }
+        }
+        if(found){
+            System.out.println("The journey updated is " + journey.getJourneyName() + " and number " +
+                journey.getJourneyNumber());
+            writeCSVFile();
+            System.out.println("Post CSV file method call");
+        }
+        return;
     }
     
     /**
