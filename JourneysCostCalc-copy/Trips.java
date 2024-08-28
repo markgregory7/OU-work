@@ -6,7 +6,8 @@ import java.io.*;
  * retrieved or modified at a later date storing the data as a csv file.
  *
  * @author Mark Gregory
- * @version 2024-08-25
+ * @version 2024-08-27 - Continuing to add save function, plus change from Date objects to java.time
+ *                              because of BST loading/save issues.
  */
 public class Trips
 {

@@ -6,8 +6,8 @@ import java.util.Date;
  * and FuelCostCalculator object.
  *
  * @author Mark Gregory
- * @version 2024-02-25 -  Added setters so Journey attributes can be updated after
- * creation.
+ * @version 2024-08-27 - Continuing to add save function, plus change from Date objects to java.time
+ *                              because of BST loading/save issues.
  */
 public class Journey
 {

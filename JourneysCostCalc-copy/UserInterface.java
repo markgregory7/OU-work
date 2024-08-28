@@ -21,7 +21,9 @@ import java.util.Date;
  * @version 0.3, 2023-07-24 - Removed lables for load/save buttons.
  * @version 0.4, 2024-01-02 - Adding save/load functionality for 'trips'.
  *                          - Currently loads a journey if a valid number is in text field.
- * @version 0.5, 2024-08-25- Adding save function, plus journey name details to UI.
+ * @version 0.5, 2024-08-25 - Adding save function, plus journey name details to UI.
+ * @version 0.6, 2024-08-27 - Continuing to add save function, plus change from Date objects to java.time
+ *                              because of BST loading/save issues.
  * 
  */
 public class UserInterface //extends JFrame //implements ActionListener
