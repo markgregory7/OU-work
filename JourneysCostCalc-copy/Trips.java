@@ -1,17 +1,19 @@
 import java.util.*;
 import java.io.*;
+import java.time.Instant;
 
 /**
  * This class enables Journey objects to be stored as 'trips' and then
  * retrieved or modified at a later date storing the data as a csv file.
  *
  * @author Mark Gregory
- * @version 2024-08-27 - Continuing to add save function, plus change from Date objects to java.time
+ * @version 2024-11-09 - Continuing to add save function, plus change from Date objects to java.time
  *                              because of BST loading/save issues.
  */
 public class Trips
 {
     private ArrayList<Journey> journeys;
+    //private Instant currentInstant;
 
     /**
      * Constructor for objects of class Trips
@@ -39,8 +41,11 @@ public class Trips
         try(FileWriter writer = new FileWriter(filename)){
             for(Journey jny : journeys){
                 writer.write(Integer.toString(jny.getJourneyNumber())+",");
+                
                 writer.write(jny.getJourneyName()+",");
-                writer.write(String.valueOf(jny.getDate())+",");
+                //writer.write(String.valueOf(jny.getDate())+",");
+                //As of 27/10 following results in null...
+                writer.write(String.valueOf(jny.getInstant())+",");
                 writer.write(String.valueOf(jny.getFcc().getMilesTravelled())+",");
                 writer.write(String.valueOf(jny.getFcc().getPencePerLitre())+",");
                 writer.write(String.valueOf(jny.getFcc().getCurrentMpg())+",");
@@ -69,25 +74,34 @@ public class Trips
         try(Scanner scanner = new Scanner(new File(filename))){
             ArrayList<Journey> transferList = new ArrayList<Journey>();
             scanner.useDelimiter(",");
-
+            
+            System.out.println("File reader has started.");
+            
             while(scanner.hasNextLine()){
                 String currentLineText = scanner.nextLine();
                 String[] csvValueArray = currentLineText.split(",");
                 // csv data is stored as 6 Strings plus \r\n, then needs to be converted back...
                 int journeyNo = Integer.parseInt(csvValueArray[0]);
                 String journeyName = csvValueArray[1];
-                Date date = new Date(csvValueArray[2]);
+                // Change the following to Instant....
+                String csvValueArray2 = csvValueArray[2];
+                System.out.println("csvValueArray2 as String is (before parse): " + csvValueArray2);
+                Instant currentInstant = Instant.parse(csvValueArray2);
+                System.out.println("curentInstant toString: " + currentInstant);
+                //Date date = new Date(csvValueArray[2]);
                 // Would the following be better as Double obs as converting Strings?           
                 double miles = Double.parseDouble(csvValueArray[3]);
                 double pencePerLitre = Double.parseDouble(csvValueArray[4]);
                 double mpg = Double.parseDouble(csvValueArray[5]);
 
                 FuelCostCalculator fcc = new FuelCostCalculator(miles, pencePerLitre, mpg);
-                Journey jcc = new Journey(journeyNo, journeyName, date, fcc);
+                Journey jcc = new Journey(journeyNo, journeyName, currentInstant, fcc);
 
                 transferList.add(jcc);
             }
             journeys.addAll(transferList);
+            // Add a call to print out each journey instant to check if null.... 3/11/24
+            System.out.println("Journeys toString is : " + journeys);
         }
         catch(FileNotFoundException e){
             System.err.println("Unable to open " + filename);

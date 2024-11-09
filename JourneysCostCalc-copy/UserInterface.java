@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
+import java.time.Instant;
 
 /**
  * UserInterface is the main class of the Fuel Cost Calculator application. It builds and
@@ -22,7 +23,7 @@ import java.util.Date;
  * @version 0.4, 2024-01-02 - Adding save/load functionality for 'trips'.
  *                          - Currently loads a journey if a valid number is in text field.
  * @version 0.5, 2024-08-25 - Adding save function, plus journey name details to UI.
- * @version 0.6, 2024-08-27 - Continuing to add save function, plus change from Date objects to java.time
+ * @version 0.6, 2024-11-09 - Continuing to add save function, plus change from Date objects to java.time
  *                              because of BST loading/save issues.
  * 
  */
@@ -62,6 +63,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     private JTextField litresUsedText;
 
     private int journeyNoInt;
+    private Instant currentInstant;
 
     /**
      * Constructor for objects of class UserInterface
@@ -254,9 +256,13 @@ public class UserInterface //extends JFrame //implements ActionListener
                     if(decision == 0){
                         // Update current journey within collection with updated MPG etc then update csv file?
                         // journeyNumber, journeyName remain the same - update date and journeyFcc with new data.
-                        Date currentDate = new Date();
-                        System.out.println("currentDate = " + currentDate);
-                        foundJourney.setDate(currentDate); // Updates journey's date to current system date & time
+                        // 22/9/24 - change the below from Date to Instant...
+                        //Date currentDate = new Date();
+                        //System.out.println("currentDate = " + currentDate);
+                        currentInstant.now();
+                        System.out.println("currentInstant = " + currentInstant);
+                        foundJourney.setInstant(currentInstant);
+                        //foundJourney.setDate(currentDate); // Updates journey's date to current system date & time
                         // Now to get data from GUI text boxes and update FFC object.
                         // 1. get milesTravelled, pencePerLitre and currentMpg from GUI text fields
                         double miles = 0.0;
