@@ -7,7 +7,7 @@ import java.time.Instant;
  * retrieved or modified at a later date storing the data as a csv file.
  *
  * @author Mark Gregory
- * @version 2024-12-21 - Continuing to add save function, plus change from Date objects to java.time
+ * @version 2024-12-22 - Continuing to add save function, plus change from Date objects to java.time
  *                              because of BST loading/save issues and adding
  *                              add journey method.
  */
@@ -159,7 +159,10 @@ public class Trips
         }
         // Add new journey object if nothing found....
         else{
-            
+            journeys.add(journey);
+            System.out.println("New journey added.");
+            writeCSVFile();
+            System.out.println("Post CSV file method call");
         }
         return;
     }

@@ -15,7 +15,7 @@ import java.time.Instant;
  * To start the application, create an object of this class.
  * 
  * showAbout method & menu shortcuts based on ImageViewer class from Michael Kölling and
- * David J. Barnes. 
+ * David J. Barnes in Objects First with Java (Sixth Ediion, 2017).
  * 
  * @author Mark Gregory.
  * @version 0.2, 2023-06-07 - Added litres to display.
@@ -23,8 +23,10 @@ import java.time.Instant;
  * @version 0.4, 2024-01-02 - Adding save/load functionality for 'trips'.
  *                          - Currently loads a journey if a valid number is in text field.
  * @version 0.5, 2024-08-25 - Adding save function, plus journey name details to UI.
- * @version 0.6, 2024-12-21 - Continuing to add save function, plus change from Date objects to java.time
+ * @version 0.6, 2024-12-22 - Continuing to add save function, plus change from Date objects to java.time
  *                              because of BST loading/save issues.
+ * @version 0.7, 2024-12-22 - Adding delete/remove journey function.
+ *                          - Currently have to load a journey first before you can save.
  * 
  */
 public class UserInterface //extends JFrame //implements ActionListener
@@ -333,20 +335,15 @@ public class UserInterface //extends JFrame //implements ActionListener
                     ppl = Double.parseDouble(pplTxt);
 
                     FuelCostCalculator fccTransfer = new FuelCostCalculator(miles, ppl, mpg);
-                    //foundJourney.setFcc(fccTransfer);
 
                     // create new journey object....
                     journeyInstant.now();
                     Journey newJourney = new Journey(newJourneyNo, userInput,journeyInstant, fccTransfer);
-                    
-                    //currentTrips.updateJourneyInTrips(foundJourney);                    
+
                     currentTrips.updateJourneyInTrips(newJourney);
                 } else if(choice == 2){
-                    // Add a save cancelled window?
                     showOKWindow("Save cancelled.");
                     return;
-                } else{
-
                 }
 
                 // Then confirm journey name to be used.                
@@ -360,18 +357,34 @@ public class UserInterface //extends JFrame //implements ActionListener
             // though that would update text fields as the loadJourney method0
             // currently functions...
 
-            // Iterate through currentTrips and find highest journeyNumber.
-            int highestJourneyNo = currentTrips.searchTripsHighestJourneyNo();
-            System.out.println("highestJourneyNo = " + highestJourneyNo);
-
         }else{
-            // Find current highest journey number and add 1 to it.
-            // Prompt for a journey name as a String.
-            // Check journey with same name does not alread exist. If it does ask ok to overwrite?
-            // Is current data in fields valid? Currently only checked on 'calculate' call.
-            // Save to csv.
+            System.out.println("Journey number box is empty.");
+            // 22-12-24 the following not activating?
+            
+            // As above ask for new journey name and use latest journey number +1?
             int highestJourneyNo = currentTrips.searchTripsHighestJourneyNo();
-            System.out.println("highestJourneyNo = " + highestJourneyNo);
+            int newJourneyNo = highestJourneyNo + 1;
+            // Menu displays new journey number and accepts user entered journey name
+            // Will need to validate entry....
+            String userInput = userInputWindow("New Journey number will be " +
+                    newJourneyNo + ". Now please enter a new journey name.");
+            double miles = 0.0;
+            double mpg = 0.0;
+            double ppl = 0.0;
+            String milesTxt = milesTraveledText.getText();
+            miles = Double.parseDouble(milesTxt);
+            String mpgTxt = currentMpgText.getText();
+            mpg = Double.parseDouble(mpgTxt);
+            String pplTxt = pencePerLitreText.getText();
+            ppl = Double.parseDouble(pplTxt);
+
+            FuelCostCalculator fccTransfer = new FuelCostCalculator(miles, ppl, mpg);
+
+            // create new journey object....
+            journeyInstant.now();
+            Journey newJourney = new Journey(newJourneyNo, userInput,journeyInstant, fccTransfer);
+
+            currentTrips.updateJourneyInTrips(newJourney);
         }
 
     }
@@ -441,7 +454,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         }
         catch(NumberFormatException e) {
             //System.out.println("catch block reached");
-            String msg = "Please enter whole, or decimal numbers, only.";
+            String msg = "Please enter whole, or decimal numbers only. Do not use commas.";
             String msgtyp = "Alert";
             JOptionPane.showMessageDialog(null, msg, msgtyp, JOptionPane.ERROR_MESSAGE);
             return;
