@@ -23,7 +23,7 @@ import java.time.Instant;
  * @version 0.4, 2024-01-02 - Adding save/load functionality for 'trips'.
  *                          - Currently loads a journey if a valid number is in text field.
  * @version 0.5, 2024-08-25 - Adding save function, plus journey name details to UI.
- * @version 0.6, 2024-11-09 - Continuing to add save function, plus change from Date objects to java.time
+ * @version 0.6, 2024-12-21 - Continuing to add save function, plus change from Date objects to java.time
  *                              because of BST loading/save issues.
  * 
  */
@@ -64,6 +64,7 @@ public class UserInterface //extends JFrame //implements ActionListener
 
     private int journeyNoInt;
     private Instant currentInstant;
+    private Instant journeyInstant;
 
     /**
      * Constructor for objects of class UserInterface
@@ -246,23 +247,18 @@ public class UserInterface //extends JFrame //implements ActionListener
                 // CANCEL_OPTION = 2
                 System.out.println("Returned from yesNoCancel call...");
                 System.out.println("choice = " + choice);
-                //Save over choice chosen
-                if(choice == 0){ 
+                if(choice == 0){ //Save over choice chosen
                     // Ask whether to update journey name.
                     String updateJourneyNameQuestion = "Do you wish to keep the Journey name as " + foundJourney.getJourneyName() + "?";
                     // Modify collection.
                     int decision = yesNoCancelResult(updateJourneyNameQuestion);
-                    //Journey Name kept
-                    if(decision == 0){
+                    if(decision == 0){ // Save over chosen & Journey Name kept
+                        System.out.println("Save over chosen & Journey Name kept");
                         // Update current journey within collection with updated MPG etc then update csv file?
                         // journeyNumber, journeyName remain the same - update date and journeyFcc with new data.
-                        // 22/9/24 - change the below from Date to Instant...
-                        //Date currentDate = new Date();
-                        //System.out.println("currentDate = " + currentDate);
                         currentInstant.now();
                         System.out.println("currentInstant = " + currentInstant);
                         foundJourney.setInstant(currentInstant);
-                        //foundJourney.setDate(currentDate); // Updates journey's date to current system date & time
                         // Now to get data from GUI text boxes and update FFC object.
                         // 1. get milesTravelled, pencePerLitre and currentMpg from GUI text fields
                         double miles = 0.0;
@@ -282,12 +278,36 @@ public class UserInterface //extends JFrame //implements ActionListener
                         // 2. set new FCC object to foundJourney.
                         foundJourney.setFcc(fccTransfer);
                         // 3. save foundJourney over previous by using JourneyNo...
-                        currentTrips.updateJourneyInTrips(foundJourney);
                         // Update currentTrips here then save to CSV?
                         // Create an update method in Trips?
-                        
+                        currentTrips.updateJourneyInTrips(foundJourney);
+                    } // End of Save over chosen & Journey Name kept
+                    else if(decision == 1){ // Save over chosen & Journey Name to change..
+                        System.out.println("Reached save over and new journey name to input.");
+                        String newJourneyName = userInputWindow("Please enter the new Journey name.");
+                        System.out.println("New Journey name is: " + newJourneyName);
+                        // Update journey name here
+                        foundJourney.setJourneyName(newJourneyName);
+
+                        double miles = 0.0;
+                        double mpg = 0.0;
+                        double ppl = 0.0;
+                        String milesTxt = milesTraveledText.getText();
+                        miles = Double.parseDouble(milesTxt);
+                        String mpgTxt = currentMpgText.getText();
+                        mpg = Double.parseDouble(mpgTxt);
+                        String pplTxt = pencePerLitreText.getText();
+                        ppl = Double.parseDouble(pplTxt);
+
+                        FuelCostCalculator fccTransfer = new FuelCostCalculator(miles, ppl, mpg);
+                        foundJourney.setFcc(fccTransfer);
+
+                        currentTrips.updateJourneyInTrips(foundJourney);
                     }
-                } else if(choice == 1){ //New Journey Name chosen
+                    else if(decision == 2){ // Save over cancelled.
+                        showOKWindow("Save over cancelled.");
+                    }
+                } else if(choice == 1){
                     // If no then go to another window offering latest availble journey number
                     // and asking for a new journey name.
                     // Iterate through currentTrips and find highest journeyNumber.
@@ -299,10 +319,31 @@ public class UserInterface //extends JFrame //implements ActionListener
                     String userInput = userInputWindow("New Journey number will be " +
                             newJourneyNo + ". Now please enter a new journey name.");
                     System.out.println("User input is: " + userInput);
-                    //New OK/Cancel result here...?
+                    // Create the new journey here and update current trips
+                    // Need to add an "add journey method" to trips?
+
+                    double miles = 0.0;
+                    double mpg = 0.0;
+                    double ppl = 0.0;
+                    String milesTxt = milesTraveledText.getText();
+                    miles = Double.parseDouble(milesTxt);
+                    String mpgTxt = currentMpgText.getText();
+                    mpg = Double.parseDouble(mpgTxt);
+                    String pplTxt = pencePerLitreText.getText();
+                    ppl = Double.parseDouble(pplTxt);
+
+                    FuelCostCalculator fccTransfer = new FuelCostCalculator(miles, ppl, mpg);
+                    //foundJourney.setFcc(fccTransfer);
+
+                    // create new journey object....
+                    journeyInstant.now();
+                    Journey newJourney = new Journey(newJourneyNo, userInput,journeyInstant, fccTransfer);
                     
+                    //currentTrips.updateJourneyInTrips(foundJourney);                    
+                    currentTrips.updateJourneyInTrips(newJourney);
                 } else if(choice == 2){
                     // Add a save cancelled window?
+                    showOKWindow("Save cancelled.");
                     return;
                 } else{
 
@@ -314,7 +355,7 @@ public class UserInterface //extends JFrame //implements ActionListener
                 //                       no = uses new journey no and prompts for name
                 //                       cancel = returns from save method)
 
-            }
+            } //End of checking if found journey is null
             // Call load journey then by default create a number on the last number ++?
             // though that would update text fields as the loadJourney method0
             // currently functions...
@@ -504,7 +545,16 @@ public class UserInterface //extends JFrame //implements ActionListener
     }
 
     /**
-     * Show the 'Frequently Asked Questions' dialog. TBC
+     * Show an OK dialog window with supplied String.
+     */
+    private void showOKWindow(String displayString)
+    {
+        UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
+        JOptionPane.showMessageDialog(frame,displayString,"Confirmation Window",JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Show the 'Frequently Asked Questions' dialog.
      */
     private void showFAQ()
     {

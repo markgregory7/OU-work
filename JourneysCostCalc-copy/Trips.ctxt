@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Trips
-comment0.text=\r\n\ This\ class\ enables\ Journey\ objects\ to\ be\ stored\ as\ 'trips'\ and\ then\r\n\ retrieved\ or\ modified\ at\ a\ later\ date\ storing\ the\ data\ as\ a\ csv\ file.\r\n\r\n\ @author\ Mark\ Gregory\r\n\ @version\ 2024-11-09\ -\ Continuing\ to\ add\ save\ function,\ plus\ change\ from\ Date\ objects\ to\ java.time\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ because\ of\ BST\ loading/save\ issues.\r\n
+comment0.text=\r\n\ This\ class\ enables\ Journey\ objects\ to\ be\ stored\ as\ 'trips'\ and\ then\r\n\ retrieved\ or\ modified\ at\ a\ later\ date\ storing\ the\ data\ as\ a\ csv\ file.\r\n\r\n\ @author\ Mark\ Gregory\r\n\ @version\ 2024-12-21\ -\ Continuing\ to\ add\ save\ function,\ plus\ change\ from\ Date\ objects\ to\ java.time\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ because\ of\ BST\ loading/save\ issues\ and\ adding\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ add\ journey\ method.\r\n
 comment1.params=
 comment1.target=Trips()
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Trips\r\n
@@ -15,7 +15,7 @@ comment4.target=Journey\ searchTripsForJourneyNo(int)
 comment4.text=\r\n\ Searches\ the\ current\ Trips\ object\ for\ a\ particular\ journey\ by\ number,\ then\ returns\r\n\ the\ particular\ Journey\ object\ if\ found.\r\n
 comment5.params=journey
 comment5.target=void\ updateJourneyInTrips(Journey)
-comment5.text=\r\n\ Updates\ current\ Trips\ journey\ object\ using\ supplied\ journey's\ number.\ \r\n
+comment5.text=\r\n\ Updates\ current\ Trips\ journey\ object\ using\ supplied\ journey's\ number\ or\ creates\ a\ new\ one.\r\n
 comment6.params=
 comment6.target=int\ searchTripsHighestJourneyNo()
 comment6.text=\r\n\ Searches\ the\ current\ Trips\ object\ for\ highest\ journeyNo\ then\ returns\r\n\ it.\r\n

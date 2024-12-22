@@ -7,7 +7,7 @@ import java.time.Instant;
  * and FuelCostCalculator object.
  *
  * @author Mark Gregory
- * @version 2024-11-09 - Continuing to add save function, plus change from Date objects to java.time
+ * @version 2024-11-17 - Continuing to add save function, plus change from Date objects to java.time
  *                              because of BST loading/save issues.
  */
 public class Journey
@@ -84,6 +84,8 @@ public class Journey
      */
     public Instant getInstant()
     {
+        // If current collection Instant object is null, the returns current
+        // system Instant.
         if(journeyInstant == null){
             return journeyInstant.now();
         }
