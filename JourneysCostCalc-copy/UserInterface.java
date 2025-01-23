@@ -25,14 +25,16 @@ import java.time.Instant;
  * @version 0.5, 2024-08-25 - Adding save function, plus journey name details to UI.
  * @version 0.6, 2024-12-22 - Continuing to add save function, plus change from Date objects to java.time
  *                              because of BST loading/save issues.
- * @version 0.7, 2024-12-22 - Adding delete/remove journey function.
+ * @version 0.7, 2025-01-20 - Adding delete/remove journey function.
  *                          - Currently have to load a journey first before you can save.
+ *                          - Still need to output csv data in a window.
  * 
  */
 public class UserInterface //extends JFrame //implements ActionListener
 {
     private FuelCostCalculator journeyCost;
-    private JFrame frame;
+    private JFrame frame; // Main frame for FCC
+    private JFrame frameTrips; // Frame for outputing Trips journey list info - better in method?
 
     // Trip object for creating and saving trips?
     private Trips currentTrips;
@@ -135,7 +137,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         changeFontAndAlign(litresUsedText);
 
         // Button to load a saved journey. TBC
-        loadJourneyButton = new JButton("Load a Journey");
+        loadJourneyButton = new JButton("Load a Journey by Number");
         changeFontAndAlign(loadJourneyButton);
         contentPane.add(loadJourneyButton);
         // Display a window with available journeys to load and allow
@@ -149,7 +151,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         changeFontAndAlign(journeyNumberText);
 
         // Button to save the current journey. TBC (also will display currently loaded journey name).
-        saveJourneyButton = new JButton("Save Current Journey as");
+        saveJourneyButton = new JButton("Save Current Journey Name as");
         changeFontAndAlign(saveJourneyButton);
         contentPane.add(saveJourneyButton);
         saveJourneyButton.addActionListener(e -> saveJourney());
@@ -163,6 +165,39 @@ public class UserInterface //extends JFrame //implements ActionListener
         // Arrange the components and show.
         frame.pack();
         frame.setVisible(true);
+    }
+
+    /**
+     * Creates a window to display trips? TO DO!
+     */
+    public void displayTrips() // Currently public for testing
+    {
+        frameTrips = new JFrame("Trips Journey Data Output");
+        frameTrips.setLocationRelativeTo(frame);
+        // Have this method called by loadJourney to display data and save?
+        System.out.println(currentTrips); //Print out collection to console first
+        
+        Container contentPane2 = frameTrips.getContentPane();
+
+        contentPane2.setLayout(new GridLayout(1, 1));
+        
+        JLabel tripsJourneyDataLabel;
+        JTextArea tripsJourneyDataText;
+        
+        tripsJourneyDataLabel = new JLabel("Trips Journey Data");
+        changeFontAndAlign(tripsJourneyDataLabel);
+        contentPane2.add(tripsJourneyDataLabel);
+
+        tripsJourneyDataText = new JTextArea();
+        contentPane2.add(tripsJourneyDataText);
+        changeFontAndAlign(tripsJourneyDataText);
+        
+        String output = currentTrips.toString();
+        tripsJourneyDataText.setText(output);
+        
+        // Arrange the components and show.
+        frameTrips.pack();
+        frameTrips.setVisible(true);
     }
 
     /**
@@ -199,6 +234,9 @@ public class UserInterface //extends JFrame //implements ActionListener
             System.out.println(foundJourney);
             if(foundJourney == null ){
                 System.out.println("Journey not found.");
+                // Put the above into a window and then clear field?
+                displayErrorMessageWindow("Journey not found.");
+                return;
             } else {
                 // If current MPG text boxes etc have data check if ok to clear?
                 // Get miles traveled, mpg, ppl (and journey name? where to display?)
@@ -232,6 +270,17 @@ public class UserInterface //extends JFrame //implements ActionListener
     {
         // Check if a number is in the "Save Current Journey as" JTextField.
         // Place within Try/Catch for null journeys?
+
+        // Currently doesn't check for empty text fields first so run calculate?
+        calculate(); // User will need to cancel after this to avoid incorrect data being stored.   
+
+        // Checking if load journey yet to be called as currently errors on
+        // certain saves....
+        if(currentTrips == null){
+            loadJourney();
+            // 
+        }
+
         if(!journeyNumberText.getText().equals("")){
             // If there is a number, check if already in use?
             String journeyNo = journeyNumberText.getText();
@@ -352,15 +401,43 @@ public class UserInterface //extends JFrame //implements ActionListener
                 //                       no = uses new journey no and prompts for name
                 //                       cancel = returns from save method)
 
-            } //End of checking if found journey is null
-            // Call load journey then by default create a number on the last number ++?
-            // though that would update text fields as the loadJourney method0
-            // currently functions...
+            } else { //foundJourney == null and journey number not null)
+
+                // Call load journey then by default create a number on the last number ++?
+                // though that would update text fields as the loadJourney method0
+                // currently functions...
+
+                // 27-12-24 
+                int highestJourneyNo = currentTrips.searchTripsHighestJourneyNo();
+                int newJourneyNo = highestJourneyNo + 1;
+                // Menu displays new journey number and accepts user entered journey name
+                // Will need to validate entry....
+                String userInput = userInputWindow("New Journey number will be " +
+                        newJourneyNo + ". Now please enter a new journey name.");
+                double miles = 0.0;
+                double mpg = 0.0;
+                double ppl = 0.0;
+                String milesTxt = milesTraveledText.getText();
+                miles = Double.parseDouble(milesTxt);
+                String mpgTxt = currentMpgText.getText();
+                mpg = Double.parseDouble(mpgTxt);
+                String pplTxt = pencePerLitreText.getText();
+                ppl = Double.parseDouble(pplTxt);
+
+                FuelCostCalculator fccTransfer = new FuelCostCalculator(miles, ppl, mpg);
+
+                // create new journey object....
+                journeyInstant.now();
+                Journey newJourney = new Journey(newJourneyNo, userInput,journeyInstant, fccTransfer);
+
+                currentTrips.updateJourneyInTrips(newJourney);
+
+            }//End of checking if found journey is null
 
         }else{
             System.out.println("Journey number box is empty.");
             // 22-12-24 the following not activating?
-            
+
             // As above ask for new journey name and use latest journey number +1?
             int highestJourneyNo = currentTrips.searchTripsHighestJourneyNo();
             int newJourneyNo = highestJourneyNo + 1;
@@ -484,6 +561,15 @@ public class UserInterface //extends JFrame //implements ActionListener
         return choice;
     }
 
+    /**
+     * Display an error window with supplied String.
+     */
+    private void displayErrorMessageWindow(String message)
+    {
+        JOptionPane.showMessageDialog(null, message,
+            "Alert", JOptionPane.ERROR_MESSAGE);
+    }
+
     // Are the overloading methods below done better with a lamda? (if possible?)
     /**
      * Updates the font, size and horizontal alignment for a JLabel.
@@ -496,6 +582,17 @@ public class UserInterface //extends JFrame //implements ActionListener
         String formatedText = label.getText();
     }
 
+    /**
+     * Updates the font, size and horizontal alignment for a JTextArea.
+     * @param textArea The JTextArea to be modified.
+     */
+    private void changeFontAndAlign(JTextArea textArea)
+    {
+        textArea.setFont(new Font("SansSerif", Font.BOLD, 20));
+        //textArea.setHorizontalAlignment(0);
+        String formatedText = textArea.getText();
+    }
+    
     /**
      * Updates the font, size and horizontal alignment for a JTextField.
      * @param textField The JTextField to be modified.
