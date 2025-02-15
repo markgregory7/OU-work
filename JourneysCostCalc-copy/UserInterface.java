@@ -25,9 +25,9 @@ import java.time.Instant;
  * @version 0.5, 2024-08-25 - Adding save function, plus journey name details to UI.
  * @version 0.6, 2024-12-22 - Continuing to add save function, plus change from Date objects to java.time
  *                              because of BST loading/save issues.
- * @version 0.7, 2025-01-20 - Adding delete/remove journey function.
+ * @version 0.7, 2025-02-15 - Adding delete/remove journey function.
  *                          - Currently have to load a journey first before you can save.
- *                          - Still need to output csv data in a window.
+ *                          - Output data now via window.
  * 
  */
 public class UserInterface //extends JFrame //implements ActionListener
@@ -69,6 +69,9 @@ public class UserInterface //extends JFrame //implements ActionListener
     private int journeyNoInt;
     private Instant currentInstant;
     private Instant journeyInstant;
+    
+    private JLabel tripsJourneyDataLabel;
+    private JTextArea tripsJourneyDataText;
 
     /**
      * Constructor for objects of class UserInterface
@@ -168,33 +171,36 @@ public class UserInterface //extends JFrame //implements ActionListener
     }
 
     /**
-     * Creates a window to display trips? TO DO!
+     * Creates a window to display trips. 2025-02-09 - Window does not re-fresh after first call?
      */
-    public void displayTrips() // Currently public for testing
+    private void displayTrips()
     {
-        frameTrips = new JFrame("Trips Journey Data Output");
-        frameTrips.setLocationRelativeTo(frame);
-        // Have this method called by loadJourney to display data and save?
-        System.out.println(currentTrips); //Print out collection to console first
-        
-        Container contentPane2 = frameTrips.getContentPane();
+        //Check if frameTrips already exists and therefore needs to be updated rather a second window 
+        // created?
+        if(frameTrips == null){
+            frameTrips = new JFrame("Trips Journey Data Output");
+            frameTrips.setLocationRelativeTo(frame);
+            System.out.println(currentTrips); //Print out collection to console first
 
-        contentPane2.setLayout(new GridLayout(1, 1));
-        
-        JLabel tripsJourneyDataLabel;
-        JTextArea tripsJourneyDataText;
-        
-        tripsJourneyDataLabel = new JLabel("Trips Journey Data");
-        changeFontAndAlign(tripsJourneyDataLabel);
-        contentPane2.add(tripsJourneyDataLabel);
+            Container contentPane2 = frameTrips.getContentPane();
 
-        tripsJourneyDataText = new JTextArea();
-        contentPane2.add(tripsJourneyDataText);
-        changeFontAndAlign(tripsJourneyDataText);
-        
-        String output = currentTrips.toString();
-        tripsJourneyDataText.setText(output);
-        
+            contentPane2.setLayout(new GridLayout(0, 1));
+
+            tripsJourneyDataLabel = new JLabel("Trips Journey Data");
+            changeFontAndAlign(tripsJourneyDataLabel);
+            contentPane2.add(tripsJourneyDataLabel);
+
+            tripsJourneyDataText = new JTextArea();
+            contentPane2.add(tripsJourneyDataText);
+            changeFontAndAlign(tripsJourneyDataText);
+            
+            String output = currentTrips.toString();
+            tripsJourneyDataText.setText(output);
+        }else{
+            String output = currentTrips.toString();
+            tripsJourneyDataText.setText(output);
+        }
+
         // Arrange the components and show.
         frameTrips.pack();
         frameTrips.setVisible(true);
@@ -218,6 +224,7 @@ public class UserInterface //extends JFrame //implements ActionListener
             // Read csv file and print out current list of saved journeys.
             System.out.println(tempTrips); // Replace with a pop up window?
             currentTrips = tempTrips;
+            displayTrips();
             //At this point currentTrips has been replaced with journey objects loaded from file.
         }
         // User selects journey by number....
@@ -463,7 +470,7 @@ public class UserInterface //extends JFrame //implements ActionListener
 
             currentTrips.updateJourneyInTrips(newJourney);
         }
-
+        displayTrips();
     }
 
     /**
@@ -592,7 +599,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         //textArea.setHorizontalAlignment(0);
         String formatedText = textArea.getText();
     }
-    
+
     /**
      * Updates the font, size and horizontal alignment for a JTextField.
      * @param textField The JTextField to be modified.
