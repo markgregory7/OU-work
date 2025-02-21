@@ -7,7 +7,7 @@ import java.time.Instant;
  * retrieved or modified at a later date storing the data as a csv file.
  *
  * @author Mark Gregory
- * @version 2024-12-22 - Continuing to add save function, plus change from Date objects to java.time
+ * @version 2025-02-18 - Continuing to add save function, plus change from Date objects to java.time
  *                              because of BST loading/save issues and adding
  *                              add journey method.
  */
@@ -86,9 +86,9 @@ public class Trips
                 String journeyName = csvValueArray[1];
                 // Change the following to Instant....
                 String csvValueArray2 = csvValueArray[2];
-                System.out.println("csvValueArray2 as String is (before parse): " + csvValueArray2);
+                //System.out.println("csvValueArray2 as String is (before parse): " + csvValueArray2);
                 Instant currentInstant = Instant.parse(csvValueArray2);
-                System.out.println("curentInstant toString: " + currentInstant);
+                //System.out.println("curentInstant toString: " + currentInstant);
                 //Date date = new Date(csvValueArray[2]);
                 // Would the following be better as Double obs as converting Strings?           
                 double miles = Double.parseDouble(csvValueArray[3]);
@@ -102,7 +102,7 @@ public class Trips
             }
             journeys.addAll(transferList);
             // Add a call to print out each journey instant to check if null.... 3/11/24
-            System.out.println("Journeys toString is : " + journeys);
+            //System.out.println("Journeys toString is : " + journeys);
         }
         catch(FileNotFoundException e){
             System.err.println("Unable to open " + filename);
@@ -151,8 +151,8 @@ public class Trips
             }
         }
         if(found){
-            System.out.println("The journey updated is " + journey.getJourneyName() + " and number " +
-                journey.getJourneyNumber());
+            //System.out.println("The journey updated is " + journey.getJourneyName() + " and number " +
+            //journey.getJourneyNumber());
             writeCSVFile();
             System.out.println("Post CSV file method call");
             return;

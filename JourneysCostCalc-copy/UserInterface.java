@@ -25,7 +25,7 @@ import java.time.Instant;
  * @version 0.5, 2024-08-25 - Adding save function, plus journey name details to UI.
  * @version 0.6, 2024-12-22 - Continuing to add save function, plus change from Date objects to java.time
  *                              because of BST loading/save issues.
- * @version 0.7, 2025-02-15 - Adding delete/remove journey function.
+ * @version 0.7, 2025-02-18 - Adding delete/remove journey function.
  *                          - Currently have to load a journey first before you can save.
  *                          - Output data now via window.
  * 
@@ -180,7 +180,6 @@ public class UserInterface //extends JFrame //implements ActionListener
         if(frameTrips == null){
             frameTrips = new JFrame("Trips Journey Data Output");
             frameTrips.setLocationRelativeTo(frame);
-            System.out.println(currentTrips); //Print out collection to console first
 
             Container contentPane2 = frameTrips.getContentPane();
 
@@ -222,7 +221,6 @@ public class UserInterface //extends JFrame //implements ActionListener
             Trips tempTrips = new Trips();
             tempTrips.readCSVFile();
             // Read csv file and print out current list of saved journeys.
-            System.out.println(tempTrips); // Replace with a pop up window?
             currentTrips = tempTrips;
             displayTrips();
             //At this point currentTrips has been replaced with journey objects loaded from file.
@@ -231,16 +229,14 @@ public class UserInterface //extends JFrame //implements ActionListener
         // If journeyNumberText contains a number load that journey's details?
         String journeyNo = journeyNumberText.getText();
         if(!journeyNumberText.getText().equals("")){
-            System.out.println("Journey Number in text box is: " + journeyNo);
             // Check below for non-number format....
             journeyNoInt = Integer.parseInt(journeyNo);
             // Search through currentTrips for Trip with matching journeyNo
             // Call the seachTrips method here, which either returns null or an journey
             // object which we then use to populate relevant textfields....?
             Journey foundJourney = currentTrips.searchTripsForJourneyNo(journeyNoInt);
-            System.out.println(foundJourney);
             if(foundJourney == null ){
-                System.out.println("Journey not found.");
+                //System.out.println("Journey not found.");
                 // Put the above into a window and then clear field?
                 displayErrorMessageWindow("Journey not found.");
                 return;
@@ -265,7 +261,7 @@ public class UserInterface //extends JFrame //implements ActionListener
             }
 
         } if (journeyNumberText.getText().equals("")) {
-            System.out.println("Load Journey Box is empty.");
+            displayErrorMessageWindow("Load Journey Box is empty.");
         }
         // If current MPG text boxes etc have data check if ok to clear?
     }
@@ -293,7 +289,6 @@ public class UserInterface //extends JFrame //implements ActionListener
             String journeyNo = journeyNumberText.getText();
             int journeyNoInt = Integer.parseInt(journeyNo);
             Journey foundJourney = currentTrips.searchTripsForJourneyNo(journeyNoInt);
-            System.out.println(foundJourney);
             // If so then is it ok to save over previous journey entry?
             if(foundJourney != null){
                 // Show dialog window here which asks whether to overwrite yes/no.
@@ -303,19 +298,19 @@ public class UserInterface //extends JFrame //implements ActionListener
                 // YES_OPTION = 0
                 // NO_OPTION = 1
                 // CANCEL_OPTION = 2
-                System.out.println("Returned from yesNoCancel call...");
-                System.out.println("choice = " + choice);
+                
+                //System.out.println("Returned from yesNoCancel call...");
+                //System.out.println("choice = " + choice);
                 if(choice == 0){ //Save over choice chosen
                     // Ask whether to update journey name.
                     String updateJourneyNameQuestion = "Do you wish to keep the Journey name as " + foundJourney.getJourneyName() + "?";
                     // Modify collection.
                     int decision = yesNoCancelResult(updateJourneyNameQuestion);
                     if(decision == 0){ // Save over chosen & Journey Name kept
-                        System.out.println("Save over chosen & Journey Name kept");
+                        //System.out.println("Save over chosen & Journey Name kept");
                         // Update current journey within collection with updated MPG etc then update csv file?
                         // journeyNumber, journeyName remain the same - update date and journeyFcc with new data.
                         currentInstant.now();
-                        System.out.println("currentInstant = " + currentInstant);
                         foundJourney.setInstant(currentInstant);
                         // Now to get data from GUI text boxes and update FFC object.
                         // 1. get milesTravelled, pencePerLitre and currentMpg from GUI text fields
@@ -328,9 +323,6 @@ public class UserInterface //extends JFrame //implements ActionListener
                         mpg = Double.parseDouble(mpgTxt);
                         String pplTxt = pencePerLitreText.getText();
                         ppl = Double.parseDouble(pplTxt);
-                        System.out.println("milesTxt = " + milesTxt);
-                        System.out.println("mpgTxt = " + mpgTxt);
-                        System.out.println("pplTxt = " + pplTxt);
                         // Create a new fcc then 'set' it. miles, ppl, mpg
                         FuelCostCalculator fccTransfer = new FuelCostCalculator(miles, ppl, mpg);
                         // 2. set new FCC object to foundJourney.
@@ -341,9 +333,9 @@ public class UserInterface //extends JFrame //implements ActionListener
                         currentTrips.updateJourneyInTrips(foundJourney);
                     } // End of Save over chosen & Journey Name kept
                     else if(decision == 1){ // Save over chosen & Journey Name to change..
-                        System.out.println("Reached save over and new journey name to input.");
+                        //System.out.println("Reached save over and new journey name to input.");
                         String newJourneyName = userInputWindow("Please enter the new Journey name.");
-                        System.out.println("New Journey name is: " + newJourneyName);
+                        //System.out.println("New Journey name is: " + newJourneyName);
                         // Update journey name here
                         foundJourney.setJourneyName(newJourneyName);
 
@@ -370,13 +362,13 @@ public class UserInterface //extends JFrame //implements ActionListener
                     // and asking for a new journey name.
                     // Iterate through currentTrips and find highest journeyNumber.
                     int highestJourneyNo = currentTrips.searchTripsHighestJourneyNo();
-                    System.out.println("highestJourneyNo = " + highestJourneyNo);
+                    //System.out.println("highestJourneyNo = " + highestJourneyNo);
                     int newJourneyNo = highestJourneyNo + 1;
                     // Menu displays new journey number and accepts user entered journey name
                     // Will need to validate entry....
                     String userInput = userInputWindow("New Journey number will be " +
                             newJourneyNo + ". Now please enter a new journey name.");
-                    System.out.println("User input is: " + userInput);
+                    //System.out.println("User input is: " + userInput);
                     // Create the new journey here and update current trips
                     // Need to add an "add journey method" to trips?
 
@@ -442,7 +434,7 @@ public class UserInterface //extends JFrame //implements ActionListener
             }//End of checking if found journey is null
 
         }else{
-            System.out.println("Journey number box is empty.");
+            displayErrorMessageWindow("Journey Box is empty.");
             // 22-12-24 the following not activating?
 
             // As above ask for new journey name and use latest journey number +1?
@@ -487,7 +479,7 @@ public class UserInterface //extends JFrame //implements ActionListener
         userInput = JOptionPane.showInputDialog(displayString);
 
         // How does the OK/Cancel button work?
-        System.out.println("User input = " + userInput);
+        //System.out.println("User input = " + userInput);
         return userInput;
     }
 
@@ -564,7 +556,7 @@ public class UserInterface //extends JFrame //implements ActionListener
                 question, "Question Confirmation",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
-        System.out.println("choice = " + choice);
+        //System.out.println("choice = " + choice);
         return choice;
     }
 
