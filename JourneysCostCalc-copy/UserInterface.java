@@ -28,15 +28,17 @@ import java.time.Instant;
  * @version 0.7, 2025-02-18 - Adding delete/remove journey function.
  *                          - Currently have to load a journey first before you can save.
  *                          - Output data now via window.
+ * @version 0.8, 2025-03-04 - Save now works without loading, but errors twice before saving.
+ * @version 0.9, 2025-03-09 - Adding search and delete functions.
  * 
  */
-public class UserInterface //extends JFrame //implements ActionListener
+public class UserInterface
 {
     private FuelCostCalculator journeyCost;
     private JFrame frame; // Main frame for FCC
-    private JFrame frameTrips; // Frame for outputing Trips journey list info - better in method?
+    private JFrame frameTrips; // Frame for outputing Trips journey list info
 
-    // Trip object for creating and saving trips?
+    // Trip object for creating and saving trips
     private Trips currentTrips;
 
     //private JLabel journeyNumberLabel;
@@ -62,6 +64,10 @@ public class UserInterface //extends JFrame //implements ActionListener
 
     private JButton saveJourneyButton;
     private JTextField saveJourneyText;
+    
+    //Add delete journey button etc here
+    private JButton deleteJourneyButton;
+    private JTextField deleteJourneyText;
 
     private JLabel litresUsedLabel;
     private JTextField litresUsedText;
@@ -93,7 +99,7 @@ public class UserInterface //extends JFrame //implements ActionListener
 
         Container contentPane = frame.getContentPane();
 
-        contentPane.setLayout(new GridLayout(10, 2));
+        contentPane.setLayout(new GridLayout(11, 2));
 
         milesTraveledLabel = new JLabel("Miles Traveled");
         changeFontAndAlign(milesTraveledLabel);
@@ -139,31 +145,34 @@ public class UserInterface //extends JFrame //implements ActionListener
         contentPane.add(litresUsedText);
         changeFontAndAlign(litresUsedText);
 
-        // Button to load a saved journey. TBC
+        // Button to load a saved journey.
         loadJourneyButton = new JButton("Load a Journey by Number");
         changeFontAndAlign(loadJourneyButton);
         contentPane.add(loadJourneyButton);
-        // Display a window with available journeys to load and allow
-        // user to select?
-        // Call loadJourney method.
         loadJourneyButton.addActionListener(e -> loadJourney());
-        //totalCostFuelButton.addActionListener(e -> calculate());
 
         journeyNumberText = new JTextField();
         contentPane.add(journeyNumberText);
         changeFontAndAlign(journeyNumberText);
 
-        // Button to save the current journey. TBC (also will display currently loaded journey name).
+        // Button to save the current journey.
         saveJourneyButton = new JButton("Save Current Journey Name as");
         changeFontAndAlign(saveJourneyButton);
         contentPane.add(saveJourneyButton);
         saveJourneyButton.addActionListener(e -> saveJourney());
-        //Call saveJourney method.
-        //totalCostFuelButton.addActionListener(e -> calculate());
 
         journeyNameText = new JTextField();
         contentPane.add(journeyNameText);
         changeFontAndAlign(journeyNameText);
+        
+        deleteJourneyButton = new JButton("Delete a Journey by number");
+        changeFontAndAlign(deleteJourneyButton);
+        contentPane.add(deleteJourneyButton);
+        deleteJourneyButton.addActionListener(e -> deleteJourney()); //To do!
+        
+        deleteJourneyText = new JTextField();
+        contentPane.add(deleteJourneyText);
+        changeFontAndAlign(deleteJourneyText);
 
         // Arrange the components and show.
         frame.pack();
@@ -176,7 +185,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     private void displayTrips()
     {
         //Check if frameTrips already exists and therefore needs to be updated rather a second window 
-        // created?
+        // created.
         if(frameTrips == null){
             frameTrips = new JFrame("Trips Journey Data Output");
             frameTrips.setLocationRelativeTo(frame);
@@ -225,8 +234,8 @@ public class UserInterface //extends JFrame //implements ActionListener
             displayTrips();
             //At this point currentTrips has been replaced with journey objects loaded from file.
         }
-        // User selects journey by number....
-        // If journeyNumberText contains a number load that journey's details?
+        // User selects journey by number.
+        // If journeyNumberText contains a number load that journey's details.
         String journeyNo = journeyNumberText.getText();
         if(!journeyNumberText.getText().equals("")){
             // Check below for non-number format....
@@ -236,17 +245,11 @@ public class UserInterface //extends JFrame //implements ActionListener
             // object which we then use to populate relevant textfields....?
             Journey foundJourney = currentTrips.searchTripsForJourneyNo(journeyNoInt);
             if(foundJourney == null ){
-                //System.out.println("Journey not found.");
-                // Put the above into a window and then clear field?
                 displayErrorMessageWindow("Journey not found.");
                 return;
             } else {
-                // If current MPG text boxes etc have data check if ok to clear?
-                // Get miles traveled, mpg, ppl (and journey name? where to display?)
-                // and update relevant text fields....
-
                 // Get fcc object within journey object then convert each double to String, then
-                // update each text field?
+                // update each text field.
                 FuelCostCalculator fcc = foundJourney.getFcc();
                 String milesTraveled = Double.toString(fcc.getMilesTravelled());
                 String ppl = Double.toString(fcc.getPencePerLitre());
@@ -256,14 +259,10 @@ public class UserInterface //extends JFrame //implements ActionListener
                 pencePerLitreText.setText(ppl);
                 currentMpgText.setText(mpg);
                 journeyNameText.setText(foundJourney.getJourneyName());                             
-                // Have a msg confirming journey loaded?
-                // Automatically run calc?
             }
-
         } if (journeyNumberText.getText().equals("")) {
             displayErrorMessageWindow("Load Journey Box is empty.");
         }
-        // If current MPG text boxes etc have data check if ok to clear?
     }
 
     /**
@@ -271,43 +270,34 @@ public class UserInterface //extends JFrame //implements ActionListener
      */
     private void saveJourney()
     {
-        // Check if a number is in the "Save Current Journey as" JTextField.
         // Place within Try/Catch for null journeys?
-
         // Currently doesn't check for empty text fields first so run calculate?
         calculate(); // User will need to cancel after this to avoid incorrect data being stored.   
 
         // Checking if load journey yet to be called as currently errors on
-        // certain saves....
+        // certain saves.
         if(currentTrips == null){
             loadJourney();
             // 
         }
 
         if(!journeyNumberText.getText().equals("")){
-            // If there is a number, check if already in use?
+            // If there is a number, check if already in use.
             String journeyNo = journeyNumberText.getText();
             int journeyNoInt = Integer.parseInt(journeyNo);
             Journey foundJourney = currentTrips.searchTripsForJourneyNo(journeyNoInt);
             // If so then is it ok to save over previous journey entry?
             if(foundJourney != null){
                 // Show dialog window here which asks whether to overwrite yes/no.
-                // Create a String of "Do you wish to save over Journey " + journeyNoInt + " ?"
                 String saveOverJourneyQuestion = "Do you wish to save over Journey " + journeyNoInt + " ?";
                 int choice = yesNoCancelResult(saveOverJourneyQuestion);
                 // YES_OPTION = 0
                 // NO_OPTION = 1
                 // CANCEL_OPTION = 2
-                
-                //System.out.println("Returned from yesNoCancel call...");
-                //System.out.println("choice = " + choice);
                 if(choice == 0){ //Save over choice chosen
-                    // Ask whether to update journey name.
                     String updateJourneyNameQuestion = "Do you wish to keep the Journey name as " + foundJourney.getJourneyName() + "?";
-                    // Modify collection.
                     int decision = yesNoCancelResult(updateJourneyNameQuestion);
                     if(decision == 0){ // Save over chosen & Journey Name kept
-                        //System.out.println("Save over chosen & Journey Name kept");
                         // Update current journey within collection with updated MPG etc then update csv file?
                         // journeyNumber, journeyName remain the same - update date and journeyFcc with new data.
                         currentInstant.now();
@@ -333,12 +323,9 @@ public class UserInterface //extends JFrame //implements ActionListener
                         currentTrips.updateJourneyInTrips(foundJourney);
                     } // End of Save over chosen & Journey Name kept
                     else if(decision == 1){ // Save over chosen & Journey Name to change..
-                        //System.out.println("Reached save over and new journey name to input.");
                         String newJourneyName = userInputWindow("Please enter the new Journey name.");
-                        //System.out.println("New Journey name is: " + newJourneyName);
                         // Update journey name here
                         foundJourney.setJourneyName(newJourneyName);
-
                         double miles = 0.0;
                         double mpg = 0.0;
                         double ppl = 0.0;
@@ -465,6 +452,14 @@ public class UserInterface //extends JFrame //implements ActionListener
         displayTrips();
     }
 
+    /*
+     * Delete current Journey
+     */
+    private void deleteJourney()
+    {
+        //To do!
+    }
+    
     /**
      * Creates a user input window which displays a supplied string and returns the user input as a string.
      * 
@@ -648,7 +643,7 @@ public class UserInterface //extends JFrame //implements ActionListener
     {
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(frame, 
-            "JourneysCostCalc by Mark Gregory\n" + "Version: 0.5, 2024-02-13",
+            "JourneysCostCalc by Mark Gregory\n" + "Version: 0.8, 2025-02-22",
             "About JourneysCostCalc", 
             JOptionPane.INFORMATION_MESSAGE);
     }
