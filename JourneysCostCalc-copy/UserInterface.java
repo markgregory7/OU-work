@@ -29,7 +29,8 @@ import java.time.Instant;
  *                          - Currently have to load a journey first before you can save.
  *                          - Output data now via window.
  * @version 0.8, 2025-03-04 - Save now works without loading, but errors twice before saving.
- * @version 0.9, 2025-03-09 - Adding search and delete functions.
+ * @version 0.9, 2025-05-17 - Adding search and delete functions.
+ *                          - Need to add scroll bar to output window...
  * 
  */
 public class UserInterface
@@ -64,7 +65,7 @@ public class UserInterface
 
     private JButton saveJourneyButton;
     private JTextField saveJourneyText;
-    
+
     //Add delete journey button etc here
     private JButton deleteJourneyButton;
     private JTextField deleteJourneyText;
@@ -75,7 +76,7 @@ public class UserInterface
     private int journeyNoInt;
     private Instant currentInstant;
     private Instant journeyInstant;
-    
+
     private JLabel tripsJourneyDataLabel;
     private JTextArea tripsJourneyDataText;
 
@@ -164,12 +165,12 @@ public class UserInterface
         journeyNameText = new JTextField();
         contentPane.add(journeyNameText);
         changeFontAndAlign(journeyNameText);
-        
+
         deleteJourneyButton = new JButton("Delete a Journey by number");
         changeFontAndAlign(deleteJourneyButton);
         contentPane.add(deleteJourneyButton);
-        deleteJourneyButton.addActionListener(e -> deleteJourney()); //To do!
-        
+        deleteJourneyButton.addActionListener(e -> deleteJourneyFromTrips()); //To do!
+
         deleteJourneyText = new JTextField();
         contentPane.add(deleteJourneyText);
         changeFontAndAlign(deleteJourneyText);
@@ -180,7 +181,7 @@ public class UserInterface
     }
 
     /**
-     * Creates a window to display trips. 2025-02-09 - Window does not re-fresh after first call?
+     * Creates a window to display trips.
      */
     private void displayTrips()
     {
@@ -201,7 +202,7 @@ public class UserInterface
             tripsJourneyDataText = new JTextArea();
             contentPane2.add(tripsJourneyDataText);
             changeFontAndAlign(tripsJourneyDataText);
-            
+
             String output = currentTrips.toString();
             tripsJourneyDataText.setText(output);
         }else{
@@ -455,11 +456,38 @@ public class UserInterface
     /*
      * Delete current Journey
      */
-    private void deleteJourney()
+    private void deleteJourneyFromTrips()
     {
         //To do!
+        if(!deleteJourneyText.getText().equals("")){
+
+            //Call load method first?
+            if(currentTrips == null){
+                loadJourney();
+                // 
+            }
+            String journeyNo = journeyNumberText.getText();
+            int journeyNoInt = Integer.parseInt(journeyNo);
+            Journey foundJourney = currentTrips.searchTripsForJourneyNo(journeyNoInt);
+
+            if(foundJourney == null){
+                displayErrorMessageWindow("Journey " + journeyNoInt + " not found.");
+            } else {
+                String saveOverJourneyQuestion = "Do you wish to delete Journey " + journeyNoInt + " ?";
+                int choice = yesNoCancelResult(saveOverJourneyQuestion);
+                if(choice == 0){
+                    currentTrips.deleteJourney(foundJourney);
+                    displayTrips();
+                }
+            }
+
+        } else {
+            displayErrorMessageWindow("Delete Journey Box is empty.");
+            return;
+        }
+
     }
-    
+
     /**
      * Creates a user input window which displays a supplied string and returns the user input as a string.
      * 

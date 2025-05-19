@@ -7,9 +7,7 @@ import java.time.Instant;
  * retrieved or modified at a later date storing the data as a csv file.
  *
  * @author Mark Gregory
- * @version 2025-02-18 - Continuing to add save function, plus change from Date objects to java.time
- *                              because of BST loading/save issues and adding
- *                              add journey method.
+ * @version 2025-05-18 - Adding delete function.
  */
 public class Trips
 {
@@ -42,7 +40,7 @@ public class Trips
         try(FileWriter writer = new FileWriter(filename)){
             for(Journey jny : journeys){
                 writer.write(Integer.toString(jny.getJourneyNumber())+",");
-                
+
                 writer.write(jny.getJourneyName()+",");
                 //writer.write(String.valueOf(jny.getDate())+",");
                 //As of 27/10 following results in null...
@@ -75,9 +73,9 @@ public class Trips
         try(Scanner scanner = new Scanner(new File(filename))){
             ArrayList<Journey> transferList = new ArrayList<Journey>();
             scanner.useDelimiter(",");
-            
+
             System.out.println("File reader has started.");
-            
+
             while(scanner.hasNextLine()){
                 String currentLineText = scanner.nextLine();
                 String[] csvValueArray = currentLineText.split(",");
@@ -112,7 +110,7 @@ public class Trips
         }
 
     }
-  
+
     /**
      * Searches the current Trips object for a particular journey by number, then returns
      * the particular Journey object if found.
@@ -134,7 +132,7 @@ public class Trips
         }
         return null;
     }
-    
+
     /**
      * Updates current Trips journey object using supplied journey's number or creates a new one.
      */
@@ -166,7 +164,7 @@ public class Trips
         }
         return;
     }
-    
+
     /**
      * Searches the current Trips object for highest journeyNo then returns
      * it.
@@ -184,6 +182,33 @@ public class Trips
         }
         return highestJourneyNo;
     }
+
+    /**
+     * Delete a Journey from a list that is also passed to method?
+     */
+    public void deleteJourney(Journey journey)
+    {
+        //To do!
+        // Add trips collection....?
+        Iterator<Journey> jny = journeys.iterator();
+        while(jny.hasNext()){
+            Journey j = jny.next();
+            int number = j.getJourneyNumber();
+            if(number == (journey.getJourneyNumber())){
+                jny.remove();
+            }
+        }
+    }
+
+    private ArrayList<Journey> getTrips()
+    {
+        return journeys;
+    }
+    
+    private void setTrips(ArrayList<Journey> trips)
+    {
+        journeys = trips;
+    }
     
     /** 
      * Prints the whole collection of journeys.
@@ -193,7 +218,7 @@ public class Trips
     {
         System.out.println(journeys);
     }
-    
+
     /**
      * Return a String representaion of a Trip object including...
      */
