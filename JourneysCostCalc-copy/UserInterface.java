@@ -29,8 +29,9 @@ import java.time.Instant;
  *                          - Currently have to load a journey first before you can save.
  *                          - Output data now via window.
  * @version 0.8, 2025-03-04 - Save now works without loading, but errors twice before saving.
- * @version 0.9, 2025-05-17 - Adding search and delete functions.
+ * @version 0.9, 2025-05-28 - Adding search and delete functions.
  *                          - Need to add scroll bar to output window...
+ *                          - Add Yes/No method in addition to Yes\No\Cancel...
  * 
  */
 public class UserInterface
@@ -278,8 +279,7 @@ public class UserInterface
         // Checking if load journey yet to be called as currently errors on
         // certain saves.
         if(currentTrips == null){
-            loadJourney();
-            // 
+            loadJourney(); 
         }
 
         if(!journeyNumberText.getText().equals("")){
@@ -326,6 +326,12 @@ public class UserInterface
                     else if(decision == 1){ // Save over chosen & Journey Name to change..
                         String newJourneyName = userInputWindow("Please enter the new Journey name.");
                         // Update journey name here
+                        // What if null/cancel chosen?
+                        if(newJourneyName == null){
+                            showOKWindow("Save over cancelled. Name cannot be null.");
+                            return;
+                        }
+
                         foundJourney.setJourneyName(newJourneyName);
                         double miles = 0.0;
                         double mpg = 0.0;
@@ -360,6 +366,10 @@ public class UserInterface
                     // Create the new journey here and update current trips
                     // Need to add an "add journey method" to trips?
 
+                    if(userInput == null){
+                        showOKWindow("Save over cancelled. Name cannot be null.");
+                        return;
+                    }
                     double miles = 0.0;
                     double mpg = 0.0;
                     double ppl = 0.0;
@@ -466,7 +476,8 @@ public class UserInterface
                 loadJourney();
                 // 
             }
-            String journeyNo = journeyNumberText.getText();
+            //String journeyNo = journeyNumberText.getText();
+            String journeyNo = deleteJourneyText.getText();
             int journeyNoInt = Integer.parseInt(journeyNo);
             Journey foundJourney = currentTrips.searchTripsForJourneyNo(journeyNoInt);
 
@@ -474,10 +485,12 @@ public class UserInterface
                 displayErrorMessageWindow("Journey " + journeyNoInt + " not found.");
             } else {
                 String saveOverJourneyQuestion = "Do you wish to delete Journey " + journeyNoInt + " ?";
-                int choice = yesNoCancelResult(saveOverJourneyQuestion);
+                int choice = yesNoResult(saveOverJourneyQuestion);
                 if(choice == 0){
                     currentTrips.deleteJourney(foundJourney);
                     displayTrips();
+                    currentTrips.writeCSVFile();
+                    deleteJourneyText.setText("");
                 }
             }
 
@@ -500,9 +513,6 @@ public class UserInterface
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
         String userInput = "";
         userInput = JOptionPane.showInputDialog(displayString);
-
-        // How does the OK/Cancel button work?
-        //System.out.println("User input = " + userInput);
         return userInput;
     }
 
@@ -572,14 +582,26 @@ public class UserInterface
     private int yesNoCancelResult(String question)
     {
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
-        // int choice = JOptionPane.showConfirmDialog(frame,
-        // "Do you wish to save over Journey " + journeyNoInt + " ?", "Save Journey Confirmation",
-        // JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
         int choice = JOptionPane.showConfirmDialog(frame,
                 question, "Question Confirmation",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        return choice;
+    }
 
-        //System.out.println("choice = " + choice);
+    /**
+     * Creates a confirmation window and returns an integer based on user selection.
+     *
+     *@String   Question that is to be displayed.
+     * 
+     * YES_OPTION = 0
+     * NO_OPTION = 1
+     */
+    private int yesNoResult(String question)
+    {
+        UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
+        int choice = JOptionPane.showConfirmDialog(frame,
+                question, "Question Confirmation",
+                JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
         return choice;
     }
 
