@@ -29,9 +29,9 @@ import java.time.Instant;
  *                          - Currently have to load a journey first before you can save.
  *                          - Output data now via window.
  * @version 0.8, 2025-03-04 - Save now works without loading, but errors twice before saving.
- * @version 0.9, 2025-05-28 - Adding search and delete functions.
+ * @version 0.9, 2025-06-01 - Adding search and delete functions.
+ *                          - Add Yes/No method in addition to Yes\No\Cancel.
  *                          - Need to add scroll bar to output window...
- *                          - Add Yes/No method in addition to Yes\No\Cancel...
  * 
  */
 public class UserInterface
@@ -327,8 +327,8 @@ public class UserInterface
                         String newJourneyName = userInputWindow("Please enter the new Journey name.");
                         // Update journey name here
                         // What if null/cancel chosen?
-                        if(newJourneyName == null){
-                            showOKWindow("Save over cancelled. Name cannot be null.");
+                        if((newJourneyName == null) || (newJourneyName.equals(""))){
+                            showOKWindow("Save over cancelled. Name cannot be null or blank.");
                             return;
                         }
 
@@ -366,8 +366,8 @@ public class UserInterface
                     // Create the new journey here and update current trips
                     // Need to add an "add journey method" to trips?
 
-                    if(userInput == null){
-                        showOKWindow("Save over cancelled. Name cannot be null.");
+                    if((userInput == null) || (userInput.equals(""))){
+                        showOKWindow("Save over cancelled. Name cannot be null or blank.");
                         return;
                     }
                     double miles = 0.0;
@@ -411,6 +411,10 @@ public class UserInterface
                 // Will need to validate entry....
                 String userInput = userInputWindow("New Journey number will be " +
                         newJourneyNo + ". Now please enter a new journey name.");
+                if((userInput == null) || (userInput.equals(""))){
+                    showOKWindow("Save over cancelled. Name cannot be null or blank.");
+                    return;
+                }
                 double miles = 0.0;
                 double mpg = 0.0;
                 double ppl = 0.0;
@@ -693,7 +697,7 @@ public class UserInterface
     {
         UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(frame, 
-            "JourneysCostCalc by Mark Gregory\n" + "Version: 0.8, 2025-02-22",
+            "JourneysCostCalc by Mark Gregory\n" + "Version: 0.9, 2025-06-01",
             "About JourneysCostCalc", 
             JOptionPane.INFORMATION_MESSAGE);
     }
